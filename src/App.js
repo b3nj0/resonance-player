@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactPlayer from 'react-player';
+import { Form, Input } from 'semantic-ui-react';
 import youtubeSearch from 'youtube-search';
 
 import logo from './logo.svg';
@@ -8,18 +9,26 @@ import './App.css';
 const YOUTUBE_API_KEY = 'AIzaSyCtLy8fjvsD_KE8h-GMMoc0aHIBqJnmkpo';
 
 class SearchBar extends Component {
-  search = () => {
+  search = (e) => {
+    const term = e.target.term.value;
+    
     const opts = {
       key: YOUTUBE_API_KEY
     };
-    youtubeSearch('balloon', opts, (err, videos, pageInfo) => {
+    youtubeSearch(term, opts, (err, videos, pageInfo) => {
+      this.setState({
+        videos: videos,
+        pageInfo: pageInfo
+      });
       console.log(videos);
       console.log(pageInfo);
     });
   }
   render() {
     return (
-      <button onClick={this.search}>Search</button>
+      <Form onSubmit={this.search}>
+        <Input placeholder='Search...' name='term' action={{icon:'search'}} />
+      </Form>
     );
   }
 }

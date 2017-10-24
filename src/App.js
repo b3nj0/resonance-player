@@ -27,7 +27,7 @@ class SearchBar extends Component {
 class VideoPlayer extends Component {
   render() {
     return (
-      <ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' playing controls/>
+      <ReactPlayer url={this.props.url} controls/>
     );
   }
 }
@@ -42,9 +42,9 @@ class App extends Component {
         </header>
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
-          <SearchBar/>
-          <VideoPlayer/>
         </p>
+        <SearchBar/>
+        <VideoPlayer url="https://www.youtube.com/watch?v=MBVbVNgRmiA"/>
       </div>
     );
   }

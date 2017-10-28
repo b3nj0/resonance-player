@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactPlayer from 'react-player';
-import { Card, Form, Image, Input } from 'semantic-ui-react';
+import { Card, Form, Image, Input, Visibility } from 'semantic-ui-react';
 import youtubeSearch from 'youtube-search';
 
 import logo from './logo.svg';
@@ -103,9 +103,16 @@ class App extends Component {
       console.log(q);
       this.setState({
         query: q,
-        videos: videos
+        videos: videos,
+        inflight: false
       });
     });
+  }
+  nextSearchResultsPage = () => {
+    if (this.state.query && !this.state.inflight) {
+      this.setState({inflight: true});
+      this.state.query.nextPage();
+    }
   }
   render() {
     return (
@@ -118,7 +125,9 @@ class App extends Component {
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
         <SearchBar onSubmit={this.onSearch}/>
-        <VideoGrid videos={this.state.videos}/>
+        <Visibility continuous onBottomVisible={this.nextSearchResultsPage}>
+          <VideoGrid videos={this.state.videos}/>
+        </Visibility>
         <VideoPlayer url="https://www.youtube.com/watch?v=MBVbVNgRmiA"/>
       </div>
     );

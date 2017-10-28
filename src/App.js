@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactPlayer from 'react-player';
-import { Button, Card, Container, Form, Grid, Image, Input, Menu, Visibility } from 'semantic-ui-react';
+import { Button, Card, Container, Form, Grid, Icon, Image, Input, Menu, Visibility } from 'semantic-ui-react';
 import youtubeSearch from 'youtube-search';
 import _ from 'lodash';
 
@@ -104,6 +104,36 @@ class VideoPlayer extends Component {
     );
   }
 }
+class VideoPlayerBar extends Component {
+  render() {
+    return (
+          <Menu fixed='bottom' borderless>
+            <Menu.Item position='left'><VideoPlayer url="https://www.youtube.com/watch?v=MBVbVNgRmiA"/></Menu.Item>
+            <Menu.Item>
+              <Button.Group>
+                <Button icon='repeat' />
+                <Button icon='step backward' />
+                <Button icon={this.props.playing ? 'pause' : 'play'} />
+                <Button icon='step forward' />
+                <Button icon='random' />
+              </Button.Group>
+            </Menu.Item>
+            <Menu.Item position='right'>
+              <Button.Group>
+                <Button icon='volume up' />
+                <Button icon='youtube' />
+                <Button>
+                  <Icon.Group>
+                    <Icon name='unordered list' />
+                    <Icon corner name='music' />
+                  </Icon.Group>
+                </Button>
+              </Button.Group>
+            </Menu.Item>
+          </Menu>
+    );
+  }
+}
 
 class App extends Component {
   state = {
@@ -142,9 +172,7 @@ class App extends Component {
           </Visibility>
         </Container>
         <div id='bottom-panel'>
-          <Menu fixed='bottom' borderless>
-            <Menu.Item><VideoPlayer url="https://www.youtube.com/watch?v=MBVbVNgRmiA"/></Menu.Item>
-          </Menu>
+          <VideoPlayerBar />
         </div>
       </div>
     );

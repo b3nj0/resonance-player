@@ -78,6 +78,9 @@ class SearchBar extends Component {
 }
 
 class VideoCard extends Component {
+  onInfo = () => {
+    console.log(this.props.video);
+  }
   render() {
     const v = this.props.video;
     const thumb = v.thumbnails.medium;
@@ -90,7 +93,7 @@ class VideoCard extends Component {
         <Card.Content extra>
           <Button title='Play now' icon='play' size='mini' onClick={() => this.props.onPlay(v)} />
           <Button title='Add to queue' icon='plus' size='mini' onClick={() => this.props.onAddToPlaylist(v)} />
-          <Button title='Info' icon='info' size='mini' onClick={() => this.props.onInfo(v)} />
+          <Button title='Info' icon='info' size='mini' onClick={this.onInfo} />
         </Card.Content>
       </Card>
     );
@@ -100,7 +103,7 @@ class VideoCard extends Component {
 class VideoGrid extends Component {
   render() {
     const cards = this.props.videos.map((v) => { 
-      return <VideoCard key={v.id} video={v} />
+      return <VideoCard key={v.id} video={v} onPlay={this.props.onPlay} onAddToPlaylist={this.props.onAddToPlaylist} />
     });
     return (
       <Card.Group itemsPerRow={5} stackable>{cards}</Card.Group>
@@ -169,6 +172,9 @@ class App extends Component {
       this.state.query.nextPage();
     }
   }
+  onPlay = (video) => {
+    this.setState({url: video.link});
+  }
   render() {
     return (
       <div className="App" style={{paddingTop:'80px', paddingBottom:'80px'}}>
@@ -180,7 +186,7 @@ class App extends Component {
         </div>
         <Container id='content'>
           <Visibility continuous onBottomVisible={this.nextSearchResultsPage}>
-            <VideoGrid videos={this.state.videos}/>
+            <VideoGrid videos={this.state.videos} onPlay={this.onPlay}/>
           </Visibility>
         </Container>
         <div id='bottom-panel'>

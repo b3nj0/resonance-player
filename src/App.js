@@ -112,22 +112,18 @@ class VideoGrid extends Component {
 }
 
 class VideoPlayerBar extends Component {
-  state = {
-    playing: false
-  }
-  onPlay = () => { this.setState({playing: !this.state.playing}) }
   onOpenInYoutube = () => { window.open(this.props.url) }
   render() {
     return (
       <Menu fixed='bottom' borderless>
         <Menu.Item position='left'>
-          <ReactPlayer height={40} width={60} url={this.props.url} playing={this.state.playing} />
+          <ReactPlayer height={40} width={60} url={this.props.url} playing={this.props.playing} />
         </Menu.Item>
         <Menu.Item>
           <Button.Group>
             <Button icon='repeat' />
             <Button icon='step backward' />
-            <Button icon={this.state.playing ? 'pause' : 'play'} onClick={this.onPlay}/>
+            <Button icon={this.props.playing ? 'pause' : 'play'} onClick={this.props.onPlay}/>
             <Button icon='step forward' />
             <Button icon='random' />
           </Button.Group>
@@ -173,7 +169,10 @@ class App extends Component {
     }
   }
   onPlay = (video) => {
-    this.setState({url: video.link});
+    this.setState({
+      playing: true,
+      url: video.link
+    });
   }
   render() {
     return (
@@ -190,7 +189,7 @@ class App extends Component {
           </Visibility>
         </Container>
         <div id='bottom-panel'>
-          <VideoPlayerBar url={this.state.url} />
+          <VideoPlayerBar url={this.state.url} playing={this.state.playing} onPlay={() => this.setState({playing: !this.state.playing})}/>
         </div>
       </div>
     );

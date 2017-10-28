@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactPlayer from 'react-player';
-import { Card, Form, Grid, Image, Input, Menu, Visibility } from 'semantic-ui-react';
+import { Button, Card, Container, Form, Grid, Image, Input, Menu, Visibility } from 'semantic-ui-react';
 import youtubeSearch from 'youtube-search';
 import _ from 'lodash';
 
@@ -47,6 +47,12 @@ class Youtube {
   }
 }
 
+// playlist api
+
+class Playlist {
+  videos = [];
+}
+
 // gui
 
 class SearchBar extends Component {
@@ -68,6 +74,12 @@ class VideoCard extends Component {
         <Image src={thumb.url} height={thumb.height} width={thumb.width} />
         <Card.Content>
           <Card.Header>{v.title}</Card.Header>
+        </Card.Content>
+        <Card.Content extra>
+          <Button icon='play' size='mini' />
+          <Button icon='plus' size='mini' />
+          <Button icon='youtube play' size='mini' />
+          <Button icon='info' size='mini' />
         </Card.Content>
       </Card>
     );
@@ -119,23 +131,19 @@ class App extends Component {
     return (
       <div className="App">
         <div id='top-panel'>
-          <Menu fixed='top'>
-            <SearchBar onSubmit={this.onSearch}/>
+          <Menu fixed='top' borderless>
+            <Menu.Item><Image src={logo} height={40} width={60} alt="logo" /></Menu.Item>
+            <Menu.Item><SearchBar onSubmit={this.onSearch}/></Menu.Item>
           </Menu>
         </div>
-        <Grid>
-          <Grid.Row>
-            <Grid.Column width={2} id='side-panel'>
-              <Image src={logo} height={80} width={120} alt="logo" />
-              <VideoPlayer url="https://www.youtube.com/watch?v=MBVbVNgRmiA"/>
-            </Grid.Column>
-            <Grid.Column width={14} id='content'>
-              <Visibility continuous onBottomVisible={this.nextSearchResultsPage}>
-                <VideoGrid videos={this.state.videos}/>
-              </Visibility>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
+        <Container id='content'>
+          <Visibility continuous onBottomVisible={this.nextSearchResultsPage}>
+            <VideoGrid videos={this.state.videos}/>
+          </Visibility>
+        </Container>
+        <div id='side-panel'>
+          <VideoPlayer url="https://www.youtube.com/watch?v=MBVbVNgRmiA"/>
+        </div>
         <div id='bottom-panel'>
         </div>
       </div>

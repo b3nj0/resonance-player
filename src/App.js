@@ -15,6 +15,13 @@ class Youtube {
   videos = [];
   pageInfo = {};
   
+  baseOpts = {
+    key: YOUTUBE_API_KEY,
+    type: 'video'
+  }
+  _opts = (extraOpts) => {
+    return Object.assign({}, this.baseOpts, extraOpts);
+  }
   search = (term, callback) => {
     const query = {
       term: term,
@@ -22,17 +29,13 @@ class Youtube {
       pageInfo: {},
       callback: callback,
       nextPage: () => {
-        const opts = {
-          key: YOUTUBE_API_KEY,
-          pageToken: query.pageInfo.nextPageToken
+        const extra = {
+          pageToken: query.pageInfo.nextPageToken,
         };
-        this._fetchPage(query, opts);
+        this._fetchPage(query, this._opts(extra));
       }
     };
-    const opts = {
-      key: YOUTUBE_API_KEY
-    };
-    this._fetchPage(query, opts);
+    this._fetchPage(query, this._opts());
   }
   _fetchPage = (query, opts) => {
     youtubeSearch(query.term, opts, (err, newVideos, pageInfo) => {
@@ -58,7 +61,7 @@ class SearchBar extends Component {
 class VideoCard extends Component {
   render() {
     const v = this.props.video;
-    const thumb = v.thumbnails.default;
+    const thumb = v.thumbnails.medium;
     return (
       <Card>
         <Image src={thumb.url} height={thumb.height} width={thumb.width} />

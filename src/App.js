@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactPlayer from 'react-player';
-import { Card, Form, Image, Input, Menu, Visibility } from 'semantic-ui-react';
+import { Card, Form, Grid, Image, Input, Menu, Visibility } from 'semantic-ui-react';
 import youtubeSearch from 'youtube-search';
 import _ from 'lodash';
 
@@ -80,7 +80,7 @@ class VideoGrid extends Component {
       return <VideoCard key={v.id} video={v} />
     });
     return (
-      <Card.Group>{cards}</Card.Group>
+      <Card.Group itemsPerRow={4} stackable>{cards}</Card.Group>
     );
   }
 }
@@ -123,15 +123,19 @@ class App extends Component {
             <SearchBar onSubmit={this.onSearch}/>
           </Menu>
         </div>
-        <div id='side-panel'>
-          <Image src={logo} height={80} width={120} alt="logo" />
-          <VideoPlayer url="https://www.youtube.com/watch?v=MBVbVNgRmiA"/>
-        </div>
-        <div id='content'>
-          <Visibility continuous onBottomVisible={this.nextSearchResultsPage}>
-            <VideoGrid videos={this.state.videos}/>
-          </Visibility>
-        </div>
+        <Grid>
+          <Grid.Row>
+            <Grid.Column width={2} id='side-panel'>
+              <Image src={logo} height={80} width={120} alt="logo" />
+              <VideoPlayer url="https://www.youtube.com/watch?v=MBVbVNgRmiA"/>
+            </Grid.Column>
+            <Grid.Column width={14} id='content'>
+              <Visibility continuous onBottomVisible={this.nextSearchResultsPage}>
+                <VideoGrid videos={this.state.videos}/>
+              </Visibility>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
         <div id='bottom-panel'>
         </div>
       </div>

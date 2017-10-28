@@ -55,17 +55,24 @@ class SearchBar extends Component {
   }
 }
 
+class VideoCard extends Component {
+  render() {
+    const v = this.props.video;
+    return (
+      <Card>
+        <Image src={v.thumbnails.default.url} />
+        <Card.Content>
+          <Card.Header>{v.title}</Card.Header>
+        </Card.Content>
+      </Card>
+    );
+  }
+}
+
 class VideoGrid extends Component {
   render() {
-    const cards = this.props.videos.map((v, i) => {
-      return (
-        <Card key={i}>
-          <Image src={v.thumbnails.default.url} />
-          <Card.Content>
-            <Card.Header>{v.title}</Card.Header>
-          </Card.Content>
-        </Card>
-      );
+    const cards = this.props.videos.map((v) => { 
+      return <VideoCard key={v.id} video={v} />
     });
     return (
       <Card.Group>{cards}</Card.Group>

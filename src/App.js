@@ -88,10 +88,9 @@ class VideoCard extends Component {
           <Card.Header>{v.title}</Card.Header>
         </Card.Content>
         <Card.Content extra>
-          <Button icon='play' size='mini' />
-          <Button icon='plus' size='mini' />
-          <Button icon='youtube play' size='mini' />
-          <Button icon='info' size='mini' />
+          <Button title='Play now' icon='play' size='mini' onClick={() => this.props.onPlay(v)} />
+          <Button title='Add to queue' icon='plus' size='mini' onClick={() => this.props.onAddToPlaylist(v)} />
+          <Button title='Info' icon='info' size='mini' onClick={() => this.props.onInfo(v)} />
         </Card.Content>
       </Card>
     );

@@ -12,10 +12,6 @@ import './App.css';
 const YOUTUBE_API_KEY = 'AIzaSyCtLy8fjvsD_KE8h-GMMoc0aHIBqJnmkpo';
 
 class Youtube {
-  term = '';
-  videos = [];
-  pageInfo = {};
-  
   baseOpts = {
     key: YOUTUBE_API_KEY,
     type: 'video'

@@ -109,46 +109,42 @@ class VideoGrid extends Component {
   }
 }
 
-class VideoPlayer extends Component {
-  render() {
-    return (
-      <ReactPlayer height={40} width={60} url={this.props.url} controls/>
-    );
-  }
-}
 class VideoPlayerBar extends Component {
   render() {
     return (
-          <Menu fixed='bottom' borderless>
-            <Menu.Item position='left'><VideoPlayer url="https://www.youtube.com/watch?v=MBVbVNgRmiA"/></Menu.Item>
-            <Menu.Item>
-              <Button.Group>
-                <Button icon='repeat' />
-                <Button icon='step backward' />
-                <Button icon={this.props.playing ? 'pause' : 'play'} />
-                <Button icon='step forward' />
-                <Button icon='random' />
-              </Button.Group>
-            </Menu.Item>
-            <Menu.Item position='right'>
-              <Button.Group>
-                <Button icon='volume up' />
-                <Button icon='youtube' />
-                <Button>
-                  <Icon.Group>
-                    <Icon name='unordered list' />
-                    <Icon corner name='music' />
-                  </Icon.Group>
-                </Button>
-              </Button.Group>
-            </Menu.Item>
-          </Menu>
+      <Menu fixed='bottom' borderless>
+        <Menu.Item position='left'>
+          <ReactPlayer height={40} width={60} url={this.props.url} controls/>
+        </Menu.Item>
+        <Menu.Item>
+          <Button.Group>
+            <Button icon='repeat' />
+            <Button icon='step backward' />
+            <Button icon={this.props.playing ? 'pause' : 'play'} />
+            <Button icon='step forward' />
+            <Button icon='random' />
+          </Button.Group>
+        </Menu.Item>
+        <Menu.Item position='right'>
+          <Button.Group>
+            <Button icon='volume up' />
+            <Button icon='youtube' />
+            <Button>
+              <Icon.Group>
+                <Icon name='unordered list' />
+                <Icon corner name='music' />
+              </Icon.Group>
+            </Button>
+          </Button.Group>
+        </Menu.Item>
+      </Menu>
     );
   }
 }
 
 class App extends Component {
   state = {
+    url: 'https://www.youtube.com/watch?v=38WDfmIOjg8',
     videos: []
   }
   youtube = new Youtube();
@@ -184,7 +180,7 @@ class App extends Component {
           </Visibility>
         </Container>
         <div id='bottom-panel'>
-          <VideoPlayerBar />
+          <VideoPlayerBar url={this.state.url} />
         </div>
       </div>
     );

@@ -57,9 +57,9 @@ class SearchBar extends Component {
 
 class VideoGrid extends Component {
   render() {
-    const cards = this.props.videos.map(v => {
+    const cards = this.props.videos.map((v, i) => {
       return (
-        <Card>
+        <Card key={i}>
           <Image src={v.thumbnails.default.url} />
           <Card.Content>
             <Card.Header>{v.title}</Card.Header>
@@ -68,7 +68,7 @@ class VideoGrid extends Component {
       );
     });
     return (
-      <div>{cards}</div>
+      <Card.Group>{cards}</Card.Group>
     );
   }
 }

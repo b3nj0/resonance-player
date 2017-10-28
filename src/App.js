@@ -55,12 +55,24 @@ class Playlist {
 
 // gui
 
-class SearchBar extends Component {
+class SearchInput extends Component {
   render() {
     return (
       <Form onSubmit={e => this.props.onSubmit(e.target.term.value)}>
         <Input placeholder='Search...' name='term' action={{icon:'search'}} />
       </Form>
+    );
+  }
+}
+
+class SearchBar extends Component {
+  render() {
+    return (
+      <Menu fixed='top' borderless>
+        <Menu.Item position='left'><Image src={logo} height={40} width={60} alt="logo" /></Menu.Item>
+        <Menu.Item><SearchInput onSubmit={this.props.onSubmit}/></Menu.Item>
+        <Menu.Item position='right'></Menu.Item>
+      </Menu>
     );
   }
 }

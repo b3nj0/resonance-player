@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactPlayer from 'react-player';
-import { Form, Input } from 'semantic-ui-react';
+import { Card, Form, Image, Input } from 'semantic-ui-react';
 import youtubeSearch from 'youtube-search';
 
 import logo from './logo.svg';
@@ -57,8 +57,18 @@ class SearchBar extends Component {
 
 class VideoGrid extends Component {
   render() {
+    const cards = this.props.videos.map(v => {
+      return (
+        <Card>
+          <Image src={v.thumbnails.default.url} />
+          <Card.Content>
+            <Card.Header>{v.title}</Card.Header>
+          </Card.Content>
+        </Card>
+      );
+    });
     return (
-      <div/>
+      <div>{cards}</div>
     );
   }
 }
@@ -72,10 +82,14 @@ class VideoPlayer extends Component {
 }
 
 class App extends Component {
+  state = {
+    videos: []
+  }
   youtube = new Youtube();
   onSearch = (term) => {
     console.log('Searching for ' + term);
     this.youtube.search(term, (q, videos) => {  
+      console.log(q);
       this.setState({
         query: q,
         videos: videos
@@ -93,6 +107,7 @@ class App extends Component {
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
         <SearchBar onSubmit={this.onSearch}/>
+        <VideoGrid videos={this.state.videos}/>
         <VideoPlayer url="https://www.youtube.com/watch?v=MBVbVNgRmiA"/>
       </div>
     );

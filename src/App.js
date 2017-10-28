@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactPlayer from 'react-player';
-import { Card, Form, Image, Input, Visibility } from 'semantic-ui-react';
+import { Card, Form, Image, Input, Menu, Visibility } from 'semantic-ui-react';
 import youtubeSearch from 'youtube-search';
 import _ from 'lodash';
 
@@ -118,12 +118,22 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Image src={logo} height={80} width={120} alt="logo" />
-        <SearchBar onSubmit={this.onSearch}/>
-        <Visibility continuous onBottomVisible={this.nextSearchResultsPage}>
-          <VideoGrid videos={this.state.videos}/>
-        </Visibility>
-        <VideoPlayer url="https://www.youtube.com/watch?v=MBVbVNgRmiA"/>
+        <div id='top-panel'>
+          <Menu fixed='top'>
+            <SearchBar onSubmit={this.onSearch}/>
+          </Menu>
+        </div>
+        <div id='side-panel'>
+          <Image src={logo} height={80} width={120} alt="logo" />
+          <VideoPlayer url="https://www.youtube.com/watch?v=MBVbVNgRmiA"/>
+        </div>
+        <div id='content'>
+          <Visibility continuous onBottomVisible={this.nextSearchResultsPage}>
+            <VideoGrid videos={this.state.videos}/>
+          </Visibility>
+        </div>
+        <div id='bottom-panel'>
+        </div>
       </div>
     );
   }

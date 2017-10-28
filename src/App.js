@@ -104,7 +104,7 @@ class VideoGrid extends Component {
       return <VideoCard key={v.id} video={v} />
     });
     return (
-      <Card.Group itemsPerRow={4} stackable>{cards}</Card.Group>
+      <Card.Group itemsPerRow={5} stackable>{cards}</Card.Group>
     );
   }
 }

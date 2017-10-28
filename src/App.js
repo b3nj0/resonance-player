@@ -114,6 +114,7 @@ class VideoPlayerBar extends Component {
     playing: false
   }
   onPlay = () => { this.setState({playing: !this.state.playing}) }
+  onOpenInYoutube = () => { window.open(this.props.url) }
   render() {
     return (
       <Menu fixed='bottom' borderless>
@@ -132,7 +133,7 @@ class VideoPlayerBar extends Component {
         <Menu.Item position='right'>
           <Button.Group>
             <Button icon='volume up' />
-            <Button icon='youtube' />
+            <Button icon='youtube' onClick={this.onOpenInYoutube} />
             <Button>
               <Icon.Group>
                 <Icon name='unordered list' />

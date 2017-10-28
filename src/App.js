@@ -171,7 +171,7 @@ class App extends Component {
   }
   render() {
     return (
-      <div className="App">
+      <div className="App" style={{paddingTop:'80px', paddingBottom:'80px'}}>
         <div id='top-panel'>
           <Menu fixed='top' borderless>
             <Menu.Item><Image src={logo} height={40} width={60} alt="logo" /></Menu.Item>

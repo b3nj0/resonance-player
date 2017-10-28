@@ -4,6 +4,7 @@ import { Button, Card, Container, Form, Grid, Icon, Image, Input, Menu, Visibili
 import youtubeSearch from 'youtube-search';
 import _ from 'lodash';
 
+import fire from './fire';
 import logo from './logo.svg';
 import './App.css';
 
@@ -41,12 +42,6 @@ class Youtube {
       query.callback(query, query.videos);
     });
   }
-}
-
-// playlist api
-
-class Playlist {
-  videos = [];
 }
 
 // gui

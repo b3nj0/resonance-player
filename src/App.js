@@ -23,7 +23,7 @@ class Youtube {
   _opts = (extraOpts) => {
     return Object.assign({}, this.baseOpts, extraOpts);
   }
-  search = (term, callback) => {
+  search = _.debounce((term, callback) => {
     const query = {
       term: term,
       videos: [],
@@ -37,7 +37,7 @@ class Youtube {
       }, 250)
     };
     this._fetchPage(query, this._opts());
-  }
+  }, 250);
   _fetchPage = (query, opts) => {
     youtubeSearch(query.term, opts, (err, newVideos, pageInfo) => {
       query.videos = query.videos.concat(newVideos);

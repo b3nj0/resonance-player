@@ -100,7 +100,7 @@ class VideoGrid extends Component {
 class VideoPlayer extends Component {
   render() {
     return (
-      <ReactPlayer url={this.props.url} controls/>
+      <ReactPlayer height={40} width={60} url={this.props.url} controls/>
     );
   }
 }
@@ -141,10 +141,10 @@ class App extends Component {
             <VideoGrid videos={this.state.videos}/>
           </Visibility>
         </Container>
-        <div id='side-panel'>
-          <VideoPlayer url="https://www.youtube.com/watch?v=MBVbVNgRmiA"/>
-        </div>
         <div id='bottom-panel'>
+          <Menu fixed='bottom' borderless>
+            <Menu.Item><VideoPlayer url="https://www.youtube.com/watch?v=MBVbVNgRmiA"/></Menu.Item>
+          </Menu>
         </div>
       </div>
     );

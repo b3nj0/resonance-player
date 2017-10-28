@@ -119,7 +119,7 @@ class VideoPlayerBar extends Component {
     return (
       <Menu fixed='bottom' borderless>
         <Menu.Item position='left'>
-          <ReactPlayer height={40} width={60} url={this.props.url} playing={this.state.playing} controls/>
+          <ReactPlayer height={40} width={60} url={this.props.url} playing={this.state.playing} />
         </Menu.Item>
         <Menu.Item>
           <Button.Group>

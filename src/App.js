@@ -110,17 +110,21 @@ class VideoGrid extends Component {
 }
 
 class VideoPlayerBar extends Component {
+  state = {
+    playing: false
+  }
+  onPlay = () => { this.setState({playing: !this.state.playing}) }
   render() {
     return (
       <Menu fixed='bottom' borderless>
         <Menu.Item position='left'>
-          <ReactPlayer height={40} width={60} url={this.props.url} controls/>
+          <ReactPlayer height={40} width={60} url={this.props.url} playing={this.state.playing} controls/>
         </Menu.Item>
         <Menu.Item>
           <Button.Group>
             <Button icon='repeat' />
             <Button icon='step backward' />
-            <Button icon={this.props.playing ? 'pause' : 'play'} />
+            <Button icon={this.state.playing ? 'pause' : 'play'} onClick={this.onPlay}/>
             <Button icon='step forward' />
             <Button icon='random' />
           </Button.Group>

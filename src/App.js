@@ -58,9 +58,10 @@ class SearchBar extends Component {
 class VideoCard extends Component {
   render() {
     const v = this.props.video;
+    const thumb = v.thumbnails.default;
     return (
       <Card>
-        <Image src={v.thumbnails.default.url} />
+        <Image src={thumb.url} height={thumb.height} width={thumb.width} />
         <Card.Content>
           <Card.Header>{v.title}</Card.Header>
         </Card.Content>

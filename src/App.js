@@ -11,16 +11,26 @@ const YOUTUBE_API_KEY = 'AIzaSyCtLy8fjvsD_KE8h-GMMoc0aHIBqJnmkpo';
 class SearchBar extends Component {
   search = (e) => {
     const term = e.target.term.value;
-    
     const opts = {
       key: YOUTUBE_API_KEY
     };
-    youtubeSearch(term, opts, (err, videos, pageInfo) => {
+    this._youtube(term, opts, []);
+  }
+  nextPage = () => {
+    const opts = {
+      key: YOUTUBE_API_KEY,
+      pageToken: this.state.pageInfo.nextPageToken
+    };
+    this._youtube(this.state.term, opts, this.state.videos);
+  }
+  _youtube = (term, opts, videos) => {
+    youtubeSearch(term, opts, (err, newVideos, pageInfo) => {
       this.setState({
-        videos: videos,
+        term: term,
+        videos: videos.concat(newVideos),
         pageInfo: pageInfo
       });
-      console.log(videos);
+      console.log(videos.concat(newVideos));
       console.log(pageInfo);
     });
   }

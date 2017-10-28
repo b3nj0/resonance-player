@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactPlayer from 'react-player';
 import { Card, Form, Image, Input, Visibility } from 'semantic-ui-react';
 import youtubeSearch from 'youtube-search';
+import _ from 'lodash';
 
 import logo from './logo.svg';
 import './App.css';
@@ -28,12 +29,12 @@ class Youtube {
       videos: [],
       pageInfo: {},
       callback: callback,
-      nextPage: () => {
+      nextPage: _.debounce(() => {
         const extra = {
           pageToken: query.pageInfo.nextPageToken,
         };
         this._fetchPage(query, this._opts(extra));
-      }
+      }, 250)
     };
     this._fetchPage(query, this._opts());
   }

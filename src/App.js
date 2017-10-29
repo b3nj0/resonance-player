@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import ReactPlayer from 'react-player';
-import { Button, Card, Container, Form, Grid, Icon, Image, Input, Menu, Visibility } from 'semantic-ui-react';
+import { Button, Card, Container, Form, Grid, Icon, Image, Input, Menu, Popup, Table, Visibility } from 'semantic-ui-react';
 import youtubeSearch from 'youtube-search';
 import _ from 'lodash';
 
@@ -55,7 +55,9 @@ class Playlist {
     this.ref.push(video);
   }
   observe(callback) {
-    this.ref.on('value', callback);
+    this.ref.on('value', (snap) => {
+      callback(snap != null ? snap.val() : {});
+    });
   }
 }
 
@@ -130,6 +132,50 @@ class VideoGrid extends Component {
   }
 }
 
+class PlaylistTable extends Component {
+  state = { 
+    playlist: {}
+  }
+  componentDidMount() {
+    this.props.playlist.observe(playlist => {
+      //console.log(playlist);
+      this.setState({playlist: playlist});
+    });
+  }
+  render() {
+    const rows = Object.entries(this.state.playlist).map((entry, i) => {
+      const video = entry[1];
+      const thumb = video.thumbnails.medium;
+      return (
+        <Table.Row key={i}>
+          <Table.Cell collapsing>
+            <Image src={thumb.url} height={thumb.height / 4} width={thumb.width / 4} />
+          </Table.Cell>
+          <Table.Cell>{video.title}</Table.Cell>
+          <Table.Cell collapsing></Table.Cell>
+        </Table.Row>
+      );
+    });
+  
+    return (
+      <div style={{width:'600px', height:'400px', overflowX: 'scroll'}}>
+        <Table basic='very' compact>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell/>
+              <Table.HeaderCell>Video</Table.HeaderCell>
+              <Table.HeaderCell><Icon name='clock' /></Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {rows}
+          </Table.Body>
+        </Table>
+      </div>
+    );
+  }
+}
+
 class VideoPlayerBar extends Component {
   onOpenInYoutube = () => { window.open(this.props.url) }
   render() {
@@ -151,12 +197,21 @@ class VideoPlayerBar extends Component {
           <Button.Group>
             <Button icon='volume up' />
             <Button icon='youtube' onClick={this.onOpenInYoutube} />
-            <Button>
-              <Icon.Group>
-                <Icon name='unordered list' />
-                <Icon corner name='music' />
-              </Icon.Group>
-            </Button>
+            <Popup
+              on='click'
+              position='top right'
+              size='tiny'
+              flowing
+              trigger={
+                <Button onClick={this.onShowPlaylist}>
+                  <Icon.Group>
+                    <Icon name='unordered list' />
+                    <Icon corner name='music' />
+                  </Icon.Group>
+                </Button>
+              }
+              content={<PlaylistTable playlist={this.props.playlist} />}
+            />
           </Button.Group>
         </Menu.Item>
       </Menu>
@@ -237,7 +292,7 @@ class App extends Component {
           </Visibility>
         </Container>
         <div id='bottom-panel'>
-          <VideoPlayerBar url={this.state.url} playing={this.state.playing} onPlay={() => this.setState({playing: !this.state.playing})}/>
+          <VideoPlayerBar url={this.state.url} playing={this.state.playing} playlist={this.playlist} onPlay={() => this.setState({playing: !this.state.playing})}/>
         </div>
       </div>
     );

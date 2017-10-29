@@ -45,6 +45,20 @@ class Youtube {
   }
 }
 
+// playlist
+
+class Playlist {
+  connect(user) {
+    this.ref = fire.database().ref(`users/${user.uid}/playlist/default`);
+  }
+  push(video) {
+    this.ref.push(video);
+  }
+  observe(callback) {
+    this.ref.on('value', callback);
+  }
+}
+
 // gui
 
 class SearchInput extends Component {
@@ -157,6 +171,7 @@ class App extends Component {
     videos: []
   }
   youtube = new Youtube();
+  playlist = new Playlist();
 
   componentWillMount() {
     this.removeAuthListener = fire.auth().onAuthStateChanged((user) => {
@@ -164,6 +179,7 @@ class App extends Component {
         authenticated: true,
         user: user
       });
+      this.playlist.connect(user);
     });
   }
 
@@ -190,6 +206,22 @@ class App extends Component {
       url: video.link
     });
   }
+  onAddToPlaylist = (video) => {
+    const data = {
+      id: video.id,
+      title: video.title,
+      description: video.description,
+      link: video.link,
+      thumbnails: { 
+        medium: { 
+          url: video.thumbnails.medium.url,
+          height: video.thumbnails.medium.height,
+          width: video.thumbnails.medium.width
+        } 
+      }
+    };
+    this.playlist.push(data);
+  }
   render() {
     return (
       <div className="App" style={{paddingTop:'80px', paddingBottom:'80px'}}>
@@ -201,7 +233,7 @@ class App extends Component {
         </div>
         <Container id='content'>
           <Visibility continuous onBottomVisible={this.nextSearchResultsPage}>
-            <VideoGrid videos={this.state.videos} onPlay={this.onPlay}/>
+            <VideoGrid videos={this.state.videos} onPlay={this.onPlay} onAddToPlaylist={this.onAddToPlaylist} />
           </Visibility>
         </Container>
         <div id='bottom-panel'>

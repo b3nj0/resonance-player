@@ -138,10 +138,22 @@ class VideoPlayerBar extends Component {
 
 class App extends Component {
   state = {
+    authenticated: false,
     url: 'https://www.youtube.com/watch?v=38WDfmIOjg8',
     videos: []
   }
   youtube = new Youtube();
+
+  componentWillMount() {
+    this.removeAuthListener = fire.auth().onAuthStateChanged((user) => {
+      console.log(user);
+      this.setState({
+        authenticated: true,
+        user: user
+      });
+    });
+  }
+
   onSearch = (term) => {
     console.log('Searching for ' + term);
     this.youtube.search(term, (q, videos) => {  

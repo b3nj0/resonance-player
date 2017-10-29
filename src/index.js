@@ -19,7 +19,7 @@ const Root = () => (
   <Router history={customHistory}>
       <div>
           <Route path="/login" component={Login}/>
-          <Route path="/app/home" component={App}/>
+          <Route path="/player" component={App}/>
           <Redirect from="/" to="/login"/>
       </div>
   </Router>

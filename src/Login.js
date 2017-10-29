@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import firebase from 'firebase';
 
-import fire from './fire';
 import fireauth from './fireauth';
 
 class Login extends Component {

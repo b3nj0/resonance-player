@@ -89,8 +89,7 @@ class Playlist {
     this.ref.set(this.videos);
   }
   next(offset=1) {
-  }
-  current() {
+    this.currentIndex = this.bound(this.currentIndex + offset);
     return this.videos[this.currentIndex];
   }
 
@@ -151,7 +150,7 @@ class VideoCard extends Component {
           <Card.Header>{v.title}</Card.Header>
         </Card.Content>
         <Card.Content extra>
-          <Button title='Play now' icon='play' size='mini' onClick={() => this.props.onPlay(v)} />
+          <Button title='Play now' icon='play' size='mini' onClick={() => this.props.onPlay(v, true)} />
           <Button title='Add to queue' icon='plus' size='mini' onClick={() => this.props.onAddToPlaylist(v)} />
           <Button title='Info' icon='info' size='mini' onClick={this.onInfo} />
         </Card.Content>
@@ -181,7 +180,7 @@ class PlaylistTable extends Component {
     });
   }
   render() {
-    const current = this.props.playlist.current();
+    const current = this.props.playlist.next(0);
 
     const rows = this.state.playlist.map((video, i) => {
       const thumb = video.thumbnails.medium;
@@ -295,9 +294,10 @@ class App extends Component {
       this.state.query.nextPage();
     }
   }
-  onPlay = (video) => {
+  onPlay = (video, playing=!this.state.playing) => {
+    console.log(video);
     this.setState({
-      playing: true,
+      playing: playing,
       url: video.link
     });
   }
@@ -332,7 +332,7 @@ class App extends Component {
           </Visibility>
         </Container>
         <div id='bottom-panel'>
-          <VideoPlayerBar url={this.state.url} playing={this.state.playing} playlist={this.playlist} onPlay={() => this.setState({playing: !this.state.playing})}/>
+          <VideoPlayerBar url={this.state.url} playing={this.state.playing} playlist={this.playlist} onPlay={() => this.onPlay(this.playlist.next(0))}/>
         </div>
       </div>
     );

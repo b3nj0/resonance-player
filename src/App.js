@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import ReactPlayer from 'react-player';
 import { Button, Card, Container, Form, Grid, Icon, Image, Input, Menu, Visibility } from 'semantic-ui-react';
 import youtubeSearch from 'youtube-search';
@@ -56,13 +57,26 @@ class SearchInput extends Component {
   }
 }
 
+class UserAvatar extends Component {
+  render() {
+    console.log(this.props.user);
+    if (this.props.user) {
+      return (
+        <span><Image src={this.props.user.photoURL} height={40} width={40} alt='avatar' /></span>
+      )
+    } else {
+      return <Link to='/login'>Sign in</Link>
+    }
+  }
+}
+
 class SearchBar extends Component {
   render() {
     return (
       <Menu fixed='top' borderless>
         <Menu.Item position='left'><Image src={logo} height={40} width={60} alt="logo" /></Menu.Item>
-        <Menu.Item><SearchInput onSubmit={this.props.onSubmit}/></Menu.Item>
-        <Menu.Item position='right'></Menu.Item>
+        <Menu.Item><SearchInput onSubmit={this.props.onSubmit} /></Menu.Item>
+        <Menu.Item position='right'><UserAvatar user={this.props.user} /></Menu.Item>
       </Menu>
     );
   }
@@ -146,7 +160,6 @@ class App extends Component {
 
   componentWillMount() {
     this.removeAuthListener = fire.auth().onAuthStateChanged((user) => {
-      console.log(user);
       this.setState({
         authenticated: true,
         user: user
@@ -183,7 +196,7 @@ class App extends Component {
         <div id='top-panel'>
           <Menu fixed='top' borderless>
             <Menu.Item><Image src={logo} height={40} width={60} alt="logo" /></Menu.Item>
-            <Menu.Item><SearchBar onSubmit={this.onSearch}/></Menu.Item>
+            <Menu.Item><SearchBar onSubmit={this.onSearch} user={this.state.user} /></Menu.Item>
           </Menu>
         </div>
         <Container id='content'>

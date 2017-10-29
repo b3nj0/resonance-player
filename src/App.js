@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import ReactPlayer from 'react-player';
-import { Button, Card, Container, Form, Grid, Icon, Image, Input, Menu, Popup, Table, Visibility } from 'semantic-ui-react';
+import { Button, Card, Container, Form, Icon, Image, Input, Menu, Popup, Table, Visibility } from 'semantic-ui-react';
 import youtubeSearch from 'youtube-search';
 import _ from 'lodash';
 

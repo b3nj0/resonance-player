@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Route, Link, Redirect } from 'react-router-dom';
+import { Router, Route, Redirect, Switch } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import createBrowserHistory from 'history/createBrowserHistory'
 import './index.css';
@@ -12,11 +12,11 @@ const customHistory = createBrowserHistory();
 
 const Root = () => (
   <Router history={customHistory}>
-      <div>
-          <Route path="/login" component={Login}/>
-          <Route path="/player" component={App}/>
+      <Switch>
+          <Route exact path="/login" component={Login}/>
+          <Route exact path="/player" component={App}/>
           <Redirect from="/" to="/login"/>
-      </div>
+      </Switch>
   </Router>
 );
 

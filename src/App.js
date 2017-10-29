@@ -226,9 +226,9 @@ class VideoPlayerBar extends Component {
         <Menu.Item>
           <Button.Group>
             <Button title='Repeat' icon='repeat' />
-            <Button title='Previous' icon='step backward' />
-            <Button title='Play' icon={this.props.playing ? 'pause' : 'play'} onClick={this.props.onPlay}/>
-            <Button title='Next' icon='step forward' />
+            <Button title='Previous' icon='step backward' onClick={e => this.props.onPlay(-1, this.props.playing)}/>
+            <Button title='Play' icon={this.props.playing ? 'pause' : 'play'} onClick={e => this.props.onPlay(0, !this.props.playing)}/>
+            <Button title='Next' icon='step forward' onClick={e => this.props.onPlay(1, this.props.playing)}/>
             <Button title='Shuffle' icon='random' onClick={this.onShuffle} />
           </Button.Group>
         </Menu.Item>
@@ -332,7 +332,7 @@ class App extends Component {
           </Visibility>
         </Container>
         <div id='bottom-panel'>
-          <VideoPlayerBar url={this.state.url} playing={this.state.playing} playlist={this.playlist} onPlay={() => this.onPlay(this.playlist.next(0))}/>
+          <VideoPlayerBar url={this.state.url} playing={this.state.playing} playlist={this.playlist} onPlay={(offset, playing) => this.onPlay(this.playlist.next(offset), playing)}/>
         </div>
       </div>
     );

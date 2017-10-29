@@ -48,15 +48,19 @@ class Youtube {
 // playlist
 
 class Playlist {
-  current = 0;
-  count = 0;
-    
+  currentIndex = 0; 
+  videos = []; 
+
   connect(user) {
     this.ref = fire.database().ref(`users/${user.uid}/playlist/default`);
+    this.ref.once('value', (snap) => {
+      this.videos = snap.val() != null ? snap.val() : []; 
+    });
   }
   observe(callback) {
     this.ref.on('value', (snap) => {
-      callback(snap != null ? snap.val() : {});
+      this.videos = snap.val() != null ? snap.val() : [];
+      callback(this.videos);
     });
   }
 
@@ -65,12 +69,34 @@ class Playlist {
     this.ref.remove();
   }
   add(video, offset) {
-    this.ref.push(video);
+    let pos = this.bound(this.currentIndex + offset, false);
+    this.videos.splice(pos, 0, video);
+    this.ref.set(this.videos);
   }
   shuffle() {
-    console.log('shuffling');
+    const videos = this.videos;
+    if (videos.length === 0) {
+      return;
+    }
+    const current = videos[this.currentIndex]; 
+    for (var i = videos.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = videos[i];
+      videos[i] = videos[j];
+      videos[j] = temp;
+    }
+    this.currentIndex = videos.indexOf(current);
+    this.ref.set(this.videos);
   }
   next(offset=1) {
+  }
+  current() {
+
+  }
+
+  // util
+  bound(index, wrap=true) {
+    return wrap ? (index % this.videos.length) : Math.min(Math.max(0, index), this.videos.length);
   }
 }
 
@@ -147,7 +173,7 @@ class VideoGrid extends Component {
 
 class PlaylistTable extends Component {
   state = { 
-    playlist: {}
+    playlist: []
   }
   componentDidMount() {
     this.props.playlist.observe(playlist => {
@@ -156,8 +182,7 @@ class PlaylistTable extends Component {
     });
   }
   render() {
-    const rows = Object.entries(this.state.playlist).map((entry, i) => {
-      const video = entry[1];
+    const rows = this.state.playlist.map((video, i) => {
       const thumb = video.thumbnails.medium;
       return (
         <Table.Row key={i}>
@@ -289,7 +314,7 @@ class App extends Component {
         } 
       }
     };
-    this.playlist.push(data);
+    this.playlist.add(data);
   }
   render() {
     return (

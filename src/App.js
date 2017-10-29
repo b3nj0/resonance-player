@@ -91,7 +91,7 @@ class Playlist {
   next(offset=1) {
   }
   current() {
-
+    return this.videos[this.currentIndex];
   }
 
   // util
@@ -177,15 +177,16 @@ class PlaylistTable extends Component {
   }
   componentDidMount() {
     this.props.playlist.observe(playlist => {
-      //console.log(playlist);
       this.setState({playlist: playlist});
     });
   }
   render() {
+    const current = this.props.playlist.current();
+
     const rows = this.state.playlist.map((video, i) => {
       const thumb = video.thumbnails.medium;
       return (
-        <Table.Row key={i}>
+        <Table.Row key={i} active={video === current}>
           <Table.Cell collapsing>
             <Image src={thumb.url} height={thumb.height / 4} width={thumb.width / 4} />
           </Table.Cell>

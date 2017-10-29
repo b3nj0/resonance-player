@@ -48,16 +48,29 @@ class Youtube {
 // playlist
 
 class Playlist {
+  current = 0;
+  count = 0;
+    
   connect(user) {
     this.ref = fire.database().ref(`users/${user.uid}/playlist/default`);
-  }
-  push(video) {
-    this.ref.push(video);
   }
   observe(callback) {
     this.ref.on('value', (snap) => {
       callback(snap != null ? snap.val() : {});
     });
+  }
+
+  // mutators
+  clear() {
+    this.ref.remove();
+  }
+  add(video, offset) {
+    this.ref.push(video);
+  }
+  shuffle() {
+    console.log('shuffling');
+  }
+  next(offset=1) {
   }
 }
 
@@ -178,6 +191,7 @@ class PlaylistTable extends Component {
 
 class VideoPlayerBar extends Component {
   onOpenInYoutube = () => { window.open(this.props.url) }
+  onShuffle = () => { this.props.playlist.shuffle() }
   render() {
     return (
       <Menu fixed='bottom' borderless>
@@ -186,24 +200,24 @@ class VideoPlayerBar extends Component {
         </Menu.Item>
         <Menu.Item>
           <Button.Group>
-            <Button icon='repeat' />
-            <Button icon='step backward' />
-            <Button icon={this.props.playing ? 'pause' : 'play'} onClick={this.props.onPlay}/>
-            <Button icon='step forward' />
-            <Button icon='random' />
+            <Button title='Repeat' icon='repeat' />
+            <Button title='Previous' icon='step backward' />
+            <Button title='Play' icon={this.props.playing ? 'pause' : 'play'} onClick={this.props.onPlay}/>
+            <Button title='Next' icon='step forward' />
+            <Button title='Shuffle' icon='random' onClick={this.onShuffle} />
           </Button.Group>
         </Menu.Item>
         <Menu.Item position='right'>
           <Button.Group>
-            <Button icon='volume up' />
-            <Button icon='youtube' onClick={this.onOpenInYoutube} />
+            <Button title='Adjust Volume' icon='volume up' />
+            <Button title='Open in YouTube' icon='youtube' onClick={this.onOpenInYoutube} />
             <Popup
               on='click'
               position='top right'
               size='tiny'
               flowing
               trigger={
-                <Button onClick={this.onShowPlaylist}>
+                <Button title='Show Playlist' onClick={this.onShowPlaylist}>
                   <Icon.Group>
                     <Icon name='unordered list' />
                     <Icon corner name='music' />

@@ -69,6 +69,7 @@ class Playlist {
     this.ref.remove();
   }
   add(video, offset) {
+    offset = offset || this.videos.length - this.currentIndex;
     let pos = this.bound(this.currentIndex + offset, false);
     this.videos.splice(pos, 0, video);
     this.ref.set(this.videos);

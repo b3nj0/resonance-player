@@ -74,10 +74,7 @@ class Playlist {
     this.ref.set(this.videos);
   }
   remove(index) {
-    console.log(index);
-    console.log(this.videos);
-    console.log(this.videos.splice(index, 1));
-    this.ref.set(this.videos);
+    this.ref.set(this.videos.splice(index, 1));
   }
   shuffle() {
     const videos = this.videos;
@@ -101,7 +98,8 @@ class Playlist {
 
   // util
   bound(index, wrap=true) {
-    return wrap ? (index % this.videos.length) : Math.min(Math.max(0, index), this.videos.length);
+    const newIndex = wrap ? (index % this.videos.length) : Math.min(Math.max(0, index), this.videos.length);
+    return isNaN(newIndex) ? 0 : newIndex;
   }
 }
 

@@ -75,7 +75,8 @@ class Playlist {
     this.ref.set(this.videos);
   }
   remove(index) {
-    this.ref.set(this.videos.splice(index, 1));
+    this.videos.splice(index, 1)
+    this.ref.set(this.videos.length == 0 ? null : this.videos);
   }
   shuffle() {
     const videos = this.videos;
@@ -118,7 +119,6 @@ class SearchInput extends Component {
 
 class UserAvatar extends Component {
   render() {
-    console.log(this.props.user);
     if (this.props.user) {
       return (
         <span><Image src={this.props.user.photoURL} height={40} width={40} alt='avatar' /></span>
@@ -143,7 +143,6 @@ class SearchBar extends Component {
 
 class VideoCard extends Component {
   onInfo = () => {
-    console.log(this.props.video);
   }
   render() {
     const v = this.props.video;

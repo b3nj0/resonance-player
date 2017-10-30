@@ -73,6 +73,12 @@ class Playlist {
     this.videos.splice(pos, 0, video);
     this.ref.set(this.videos);
   }
+  remove(index) {
+    console.log(index);
+    console.log(this.videos);
+    console.log(this.videos.splice(index, 1));
+    this.ref.set(this.videos);
+  }
   shuffle() {
     const videos = this.videos;
     if (videos.length === 0) {
@@ -179,6 +185,9 @@ class PlaylistTable extends Component {
       this.setState({playlist: playlist});
     });
   }
+  onRemoveVideo = (index) => {
+    this.props.playlist.remove(index);
+  }
   render() {
     const current = this.props.playlist.next(0);
 
@@ -191,6 +200,9 @@ class PlaylistTable extends Component {
           </Table.Cell>
           <Table.Cell>{video.title}</Table.Cell>
           <Table.Cell collapsing></Table.Cell>
+          <Table.Cell collapsing>
+            <Icon name='trash outline' link size='large' onClick={e => this.onRemoveVideo(i)} />
+          </Table.Cell>
         </Table.Row>
       );
     });
@@ -203,6 +215,7 @@ class PlaylistTable extends Component {
               <Table.HeaderCell/>
               <Table.HeaderCell>Video</Table.HeaderCell>
               <Table.HeaderCell><Icon name='clock' /></Table.HeaderCell>
+              <Table.HeaderCell/>
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -295,7 +308,9 @@ class App extends Component {
     }
   }
   onPlay = (video, playing=!this.state.playing) => {
-    console.log(video);
+    if (!video) {
+      return;
+    }
     this.setState({
       playing: playing,
       url: video.link

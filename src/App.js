@@ -250,7 +250,7 @@ class VideoPlayerBar extends Component {
             width={60} 
             url={this.props.url} 
             playing={this.props.playing} 
-            onEnded={e => console.log('ended')}
+            onEnded={e => this.props.onPlay(1, this.props.playing)}
             onError={e => this.props.onPlay(1, this.props.playing)}/>
         </Menu.Item>
         <Menu.Item>

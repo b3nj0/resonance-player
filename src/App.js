@@ -142,7 +142,14 @@ class SearchBar extends Component {
 }
 
 class VideoCard extends Component {
-  onInfo = () => {
+  onAddToPlaylist = (video) => {
+    this.props.onAddToPlaylist(video);
+  }
+  onInfo = (video) => {
+  }
+  onPlay = (video) => {
+    this.props.onAddToPlaylist(video);
+    this.props.onPlay(video, true);
   }
   render() {
     const v = this.props.video;
@@ -154,9 +161,9 @@ class VideoCard extends Component {
           <Card.Header>{v.title}</Card.Header>
         </Card.Content>
         <Card.Content extra>
-          <Button title='Play now' icon='play' size='mini' onClick={() => this.props.onPlay(v, true)} />
-          <Button title='Add to queue' icon='plus' size='mini' onClick={() => this.props.onAddToPlaylist(v)} />
-          <Button title='Info' icon='info' size='mini' onClick={this.onInfo} />
+          <Button title='Play now' icon='play' size='mini' onClick={() => this.onPlay(v)} />
+          <Button title='Add to queue' icon='plus' size='mini' onClick={() => this.onAddToPlaylist(v)} />
+          <Button title='Info' icon='info' size='mini' onClick={() => this.onInfo(v)} />
         </Card.Content>
       </Card>
     );

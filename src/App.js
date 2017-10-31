@@ -63,6 +63,9 @@ class Playlist {
       callback(this.videos);
     });
   }
+  unobserve() {
+    this.ref.off('value');
+  }
 
   // mutators
   clear() {
@@ -76,7 +79,7 @@ class Playlist {
   }
   remove(index) {
     this.videos.splice(index, 1)
-    this.ref.set(this.videos.length == 0 ? null : this.videos);
+    this.ref.set(this.videos.length === 0 ? null : this.videos);
   }
   shuffle() {
     const videos = this.videos;
@@ -190,6 +193,9 @@ class PlaylistTable extends Component {
       this.setState({playlist: playlist});
     });
   }
+  componentDidUnmount() {
+    this.props.playlist.unobserve();
+  }
   onRemoveVideo = (index) => {
     this.props.playlist.remove(index);
   }
@@ -239,7 +245,13 @@ class VideoPlayerBar extends Component {
     return (
       <Menu fixed='bottom' borderless>
         <Menu.Item position='left'>
-          <ReactPlayer height={40} width={60} url={this.props.url} playing={this.props.playing} />
+          <ReactPlayer 
+            height={40}   
+            width={60} 
+            url={this.props.url} 
+            playing={this.props.playing} 
+            onEnded={e => console.log('ended')}
+            onError={e => this.props.onPlay(1, this.props.playing)}/>
         </Menu.Item>
         <Menu.Item>
           <Button.Group>

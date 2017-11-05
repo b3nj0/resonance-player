@@ -78,6 +78,11 @@ class Playlist {
     this.videos.splice(pos, 0, video);
     this.ref.set(this.videos);
   }
+  move(from, to) {
+    const videos = this.videos;
+    videos.splice(to, 0, videos.splice(from, 1)[0]);
+    this.ref.set(videos);
+  }
   remove(index) {
     this.videos.splice(index, 1)
     this.ref.set(this.videos.length === 0 ? null : this.videos);
@@ -193,9 +198,9 @@ class PlaylistTable extends Component {
     this.props.playlist.observe(playlist => {
       this.setState({playlist: playlist});
     });
-    let playlistEl = document.getElementById('playlist');
-    this.sortable = new Sortable(playlistEl, {
-      draggable: 'tr'
+    this.sortable = new Sortable(document.getElementById('playlist-tbody'), {
+      draggable: '.draggable',
+      onEnd: this.onMoveVideo
     });
   }
   componentWillUnmount() {
@@ -204,13 +209,16 @@ class PlaylistTable extends Component {
   onRemoveVideo = (index) => {
     this.props.playlist.remove(index);
   }
+  onMoveVideo = (e) => {
+    this.props.playlist.move(e.oldIndex, e.newIndex);
+  }
   render() {
     const current = this.props.playlist.next(0);
-
+    
     const rows = this.state.playlist.map((video, i) => {
       const thumb = video.thumbnails.medium;
       return (
-        <Table.Row key={i} active={video === current} className='draggable'>
+        <Table.Row key={video.id + '_' + i} active={video === current} className='draggable'>
           <Table.Cell collapsing>
             <Image src={thumb.url} height={thumb.height / 4} width={thumb.width / 4} />
           </Table.Cell>
@@ -234,7 +242,7 @@ class PlaylistTable extends Component {
               <Table.HeaderCell/>
             </Table.Row>
           </Table.Header>
-          <Table.Body id='playlist'>
+          <Table.Body id='playlist-tbody'>
             {rows}
           </Table.Body>
         </Table>

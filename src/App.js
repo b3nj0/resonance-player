@@ -193,7 +193,7 @@ class PlaylistTable extends Component {
       this.setState({playlist: playlist});
     });
   }
-  componentDidUnmount() {
+  componentWillUnmount() {
     this.props.playlist.unobserve();
   }
   onRemoveVideo = (index) => {

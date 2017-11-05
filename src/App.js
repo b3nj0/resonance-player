@@ -261,18 +261,25 @@ class PlaylistTable extends Component {
     );
   }
 }
-
+const STEPS = 100000;
 class VideoPlayerBar extends Component {
-  state = { position: 0.0 }
+  state = { position: 0 }
   onOpenInYoutube = () => { window.open(this.props.url) }
-  onProgress = (p) => { this.setState({position: p.played * 100000}) }
+  onProgress = (p) => { this.setState({position: p.played * STEPS}) }
   onShuffle = () => { this.props.playlist.shuffle() }
   render() {
     return (
       <Menu borderless fixed='bottom'>
-        <Slider style={{position:'absolute', left:0, top:-7, width:'100%'}} value={this.state.position} min={0} max={100000}/>
+        <Slider 
+          style={{position:'absolute', left:0, top:-7, width:'100%'}} 
+          min={0} 
+          max={STEPS} 
+          value={this.state.position}
+          onChange={(pos) => this.setState({position: pos})}
+          onAfterChange={(pos) => this.player.seekTo(pos / STEPS)} />
         <Menu.Item position='left'>
           <ReactPlayer 
+            ref={(player) => this.player = player}
             height={40}   
             width={60} 
             url={this.props.url} 

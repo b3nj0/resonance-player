@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import ReactPlayer from 'react-player';
 import { Button, Card, Container, Form, Icon, Image, Input, Menu, Popup, Table, Visibility } from 'semantic-ui-react';
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
 import Sortable from 'sortablejs';
 import uuid from 'uuid-random';
 import youtubeSearch from 'youtube-search';
@@ -265,7 +267,8 @@ class VideoPlayerBar extends Component {
   onShuffle = () => { this.props.playlist.shuffle() }
   render() {
     return (
-      <Menu fixed='bottom' borderless>
+      <Menu borderless fixed='bottom'>
+        <Slider style={{position:'absolute', left:0, top:-7, width:'100%'}} min={0} max={100}/>
         <Menu.Item position='left'>
           <ReactPlayer 
             height={40}   

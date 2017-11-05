@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import ReactPlayer from 'react-player';
 import { Button, Card, Container, Form, Icon, Image, Input, Menu, Popup, Table, Visibility } from 'semantic-ui-react';
 import Sortable from 'sortablejs';
+import uuid from 'uuid-random';
 import youtubeSearch from 'youtube-search';
 import _ from 'lodash';
 
@@ -115,15 +116,9 @@ class Playlist {
     return isNaN(newIndex) ? 0 : newIndex;
   }
   trackCurrentVideo(callback) {
-    const current = this.videos[this.currentIndex];
-    current.selected = true;
+    const current = this.videos[this.currentIndex].uuid;
     callback();
-    for (this.currentIndex = 0; this.currentIndex < this.videos.length; this.currentIndex++) {
-      if (this.videos[this.currentIndex].selected) {
-        delete this.videos[this.currentIndex].selected;
-        break;
-      }
-    } 
+    this.currentIndex = this.videos.findIndex(v => v.uuid === current);
   }
 }
 
@@ -362,6 +357,7 @@ class App extends Component {
   }
   onAddToPlaylist = (video) => {
     const data = {
+      uuid: uuid(),
       id: video.id,
       title: video.title,
       description: video.description,

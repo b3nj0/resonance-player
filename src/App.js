@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import ReactPlayer from 'react-player';
 import { Button, Card, Container, Form, Icon, Image, Input, Menu, Popup, Table, Visibility } from 'semantic-ui-react';
+import Sortable from 'sortablejs';
 import youtubeSearch from 'youtube-search';
 import _ from 'lodash';
 
@@ -192,6 +193,10 @@ class PlaylistTable extends Component {
     this.props.playlist.observe(playlist => {
       this.setState({playlist: playlist});
     });
+    let playlistEl = document.getElementById('playlist');
+    this.sortable = new Sortable(playlistEl, {
+      draggable: 'tr'
+    });
   }
   componentWillUnmount() {
     this.props.playlist.unobserve();
@@ -205,7 +210,7 @@ class PlaylistTable extends Component {
     const rows = this.state.playlist.map((video, i) => {
       const thumb = video.thumbnails.medium;
       return (
-        <Table.Row key={i} active={video === current}>
+        <Table.Row key={i} active={video === current} className='draggable'>
           <Table.Cell collapsing>
             <Image src={thumb.url} height={thumb.height / 4} width={thumb.width / 4} />
           </Table.Cell>
@@ -229,7 +234,7 @@ class PlaylistTable extends Component {
               <Table.HeaderCell/>
             </Table.Row>
           </Table.Header>
-          <Table.Body>
+          <Table.Body id='playlist'>
             {rows}
           </Table.Body>
         </Table>

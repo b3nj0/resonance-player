@@ -79,28 +79,30 @@ class Playlist {
     this.ref.set(this.videos);
   }
   move(from, to) {
-    const videos = this.videos;
-    videos.splice(to, 0, videos.splice(from, 1)[0]);
-    this.ref.set(videos);
+    this.trackCurrentVideo(() => {
+      const videos = this.videos;
+      videos.splice(to, 0, videos.splice(from, 1)[0]);
+      this.ref.set(videos);
+    });
   }
   remove(index) {
     this.videos.splice(index, 1)
     this.ref.set(this.videos.length === 0 ? null : this.videos);
   }
   shuffle() {
-    const videos = this.videos;
-    if (videos.length === 0) {
-      return;
-    }
-    const current = videos[this.currentIndex]; 
-    for (var i = videos.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var temp = videos[i];
-      videos[i] = videos[j];
-      videos[j] = temp;
-    }
-    this.currentIndex = videos.indexOf(current);
-    this.ref.set(this.videos);
+    this.trackCurrentVideo(() => {
+      const videos = this.videos;
+      if (videos.length === 0) {
+        return;
+      }
+      for (var i = videos.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = videos[i];
+        videos[i] = videos[j];
+        videos[j] = temp;
+      }
+      this.ref.set(this.videos);
+    });
   }
   next(offset=1) {
     this.currentIndex = this.bound(this.currentIndex + offset);
@@ -111,6 +113,17 @@ class Playlist {
   bound(index, wrap=true) {
     const newIndex = wrap ? (index % this.videos.length) : Math.min(Math.max(0, index), this.videos.length);
     return isNaN(newIndex) ? 0 : newIndex;
+  }
+  trackCurrentVideo(callback) {
+    const current = this.videos[this.currentIndex];
+    current.selected = true;
+    callback();
+    for (this.currentIndex = 0; this.currentIndex < this.videos.length; this.currentIndex++) {
+      if (this.videos[this.currentIndex].selected) {
+        delete this.videos[this.currentIndex].selected;
+        break;
+      }
+    } 
   }
 }
 
@@ -211,6 +224,7 @@ class PlaylistTable extends Component {
   }
   onMoveVideo = (e) => {
     this.props.playlist.move(e.oldIndex, e.newIndex);
+    this.forceUpdate();
   }
   render() {
     const current = this.props.playlist.next(0);

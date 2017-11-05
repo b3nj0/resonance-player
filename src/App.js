@@ -263,20 +263,25 @@ class PlaylistTable extends Component {
 }
 
 class VideoPlayerBar extends Component {
+  state = { position: 0.0 }
   onOpenInYoutube = () => { window.open(this.props.url) }
+  onProgress = (p) => { this.setState({position: p.played * 100000}) }
   onShuffle = () => { this.props.playlist.shuffle() }
   render() {
     return (
       <Menu borderless fixed='bottom'>
-        <Slider style={{position:'absolute', left:0, top:-7, width:'100%'}} min={0} max={100}/>
+        <Slider style={{position:'absolute', left:0, top:-7, width:'100%'}} value={this.state.position} min={0} max={100000}/>
         <Menu.Item position='left'>
           <ReactPlayer 
             height={40}   
             width={60} 
             url={this.props.url} 
-            playing={this.props.playing} 
+            playing={this.props.playing}
+            progressFrequency={50} 
             onEnded={e => this.props.onPlay(1, this.props.playing)}
-            onError={e => this.props.onPlay(1, this.props.playing)}/>
+            onError={e => this.props.onPlay(1, this.props.playing)}
+            onProgress={this.onProgress}
+            />
         </Menu.Item>
         <Menu.Item>
           <Button.Group>

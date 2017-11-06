@@ -111,6 +111,10 @@ class Playlist {
     this.currentIndex = this.bound(this.currentIndex + offset);
     return this.videos[this.currentIndex];
   }
+  play(video) {
+    this.currentIndex = this.videos.findIndex(v => v.uid === video.uid);
+    return this.videos[this.currentIndex];
+  }
 
   // util
   bound(index, wrap=true) {
@@ -118,9 +122,9 @@ class Playlist {
     return isNaN(newIndex) ? 0 : newIndex;
   }
   trackCurrentVideo(callback) {
-    const current = this.videos[this.currentIndex].uuid;
+    const current = this.videos[this.currentIndex].uid;
     callback();
-    this.currentIndex = this.videos.findIndex(v => v.uuid === current);
+    this.currentIndex = this.videos.findIndex(v => v.uid === current);
   }
 }
 
@@ -231,7 +235,7 @@ class PlaylistTable extends Component {
       return (
         <Table.Row key={video.id + '_' + i} active={video === current} className='draggable'>
           <Table.Cell collapsing>
-            <Image src={thumb.url} height={thumb.height / 4} width={thumb.width / 4} />
+            <a onClick={e => this.props.onPlay(video)}><Image src={thumb.url} height={thumb.height / 4} width={thumb.width / 4} /></a>
           </Table.Cell>
           <Table.Cell>{video.title}</Table.Cell>
           <Table.Cell collapsing></Table.Cell>
@@ -289,17 +293,17 @@ class VideoPlayerBar extends Component {
             url={this.props.url} 
             playing={this.props.playing}
             progressFrequency={50} 
-            onEnded={e => this.props.onPlay(1, this.props.playing)}
-            onError={e => this.props.onPlay(1, this.props.playing)}
+            onEnded={e => this.props.onPlay(this.props.playlist.next(1), this.props.playing)}
+            onError={e => this.props.onPlay(this.props.playlist.next(1), this.props.playing)}
             onProgress={this.onProgress}
             />
         </Menu.Item>
         <Menu.Item>
           <Button.Group>
             <Button title='Repeat' icon='repeat' />
-            <Button title='Previous' icon='step backward' onClick={e => this.props.onPlay(-1, this.props.playing)}/>
-            <Button title='Play' icon={this.props.playing ? 'pause' : 'play'} onClick={e => this.props.onPlay(0, !this.props.playing)}/>
-            <Button title='Next' icon='step forward' onClick={e => this.props.onPlay(1, this.props.playing)}/>
+            <Button title='Previous' icon='step backward' onClick={e => this.props.onPlay(this.props.playlist.next(-1), this.props.playing)}/>
+            <Button title='Play' icon={this.props.playing ? 'pause' : 'play'} onClick={e => this.props.onPlay(this.props.playlist.next(0), !this.props.playing)}/>
+            <Button title='Next' icon='step forward' onClick={e => this.props.onPlay(this.props.playlist.next(1), this.props.playing)}/>
             <Button title='Shuffle' icon='random' onClick={this.onShuffle} />
           </Button.Group>
         </Menu.Item>
@@ -320,7 +324,7 @@ class VideoPlayerBar extends Component {
                   </Icon.Group>
                 </Button>
               }
-              content={<PlaylistTable playlist={this.props.playlist} />}
+              content={<PlaylistTable playlist={this.props.playlist} onPlay={v => this.props.onPlay(this.props.playlist.play(v), true)}/>}
             />
           </Button.Group>
         </Menu.Item>
@@ -376,7 +380,7 @@ class App extends Component {
   }
   onAddToPlaylist = (video) => {
     const data = {
-      uuid: uuid(),
+      uid: uuid(),
       id: video.id,
       title: video.title,
       description: video.description,
@@ -406,7 +410,7 @@ class App extends Component {
           </Visibility>
         </Container>
         <div id='bottom-panel'>
-          <VideoPlayerBar url={this.state.url} playing={this.state.playing} playlist={this.playlist} onPlay={(offset, playing) => this.onPlay(this.playlist.next(offset), playing)}/>
+          <VideoPlayerBar url={this.state.url} playing={this.state.playing} playlist={this.playlist} onPlay={(video, playing) => this.onPlay(video, playing)}/>
         </div>
       </div>
     );

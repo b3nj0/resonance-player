@@ -89,7 +89,7 @@ class Playlist {
     });
   }
   remove(index) {
-    this.videos.splice(index, 1)
+    this.videos.splice(index, 1);
     this.ref.set(this.videos.length === 0 ? null : this.videos);
   }
   shuffle() {

@@ -266,6 +266,10 @@ class VideoPlayerBar extends Component {
   state = { position: 0 }
   onOpenInYoutube = () => { window.open(this.props.url) }
   onProgress = (p) => { this.setState({position: p.played * STEPS}) }
+  onSeek = (pos) => {
+    this.setState({position: pos}); 
+    this.player.seekTo(pos / STEPS);
+  }
   onShuffle = () => { this.props.playlist.shuffle() }
   render() {
     return (
@@ -275,8 +279,8 @@ class VideoPlayerBar extends Component {
           min={0} 
           max={STEPS} 
           value={this.state.position}
-          onChange={(pos) => this.setState({position: pos})}
-          onAfterChange={(pos) => this.player.seekTo(pos / STEPS)} />
+          onChange={this.onSeek}
+          />
         <Menu.Item position='left'>
           <ReactPlayer 
             ref={(player) => this.player = player}

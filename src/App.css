@@ -35,7 +35,12 @@
 
 .VideoCard-buttons {
   position: absolute; 
-  top:120px;
+  top:140px;
   left:0; 
-  width:100%
+  width:100%;
+  color: white; 
+  letter-spacing: -1px;  
+  background: rgb(0, 0, 0); /* fallback color */
+  background: rgba(0, 0, 0, 0.7);
+  padding: 10px; 
 }

@@ -180,9 +180,7 @@ class VideoCard extends Component {
     return (
       <Card>
         <Image src={thumb.url} height={thumb.height} width={thumb.width} />
-        <Card.Content>
-          <Card.Header>{v.title}</Card.Header>
-        </Card.Content>
+        <Card.Content description={v.title} />
         <Card.Content extra>
           <Button title='Play now' icon='play' size='mini' onClick={() => this.onPlay(v)} />
           <Button title='Add to queue' icon='plus' size='mini' onClick={() => this.onAddToPlaylist(v)} />

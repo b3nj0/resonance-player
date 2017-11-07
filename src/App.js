@@ -180,7 +180,7 @@ class VideoCard extends Component {
     return (
       <Card>
         <Image src={thumb.url} height={thumb.height} width={thumb.width} />
-        <Button.Group>
+        <Button.Group className='VideoCard-buttons'>
           <Button title='Play now' icon='play' size='mini' onClick={() => this.onPlay(v)} />
           <Button title='Add to queue' icon='plus' size='mini' onClick={() => this.onAddToPlaylist(v)} />
           <Button title='Info' icon='info' size='mini' onClick={() => this.onInfo(v)} />

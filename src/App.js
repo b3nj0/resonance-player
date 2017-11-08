@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import ReactPlayer from 'react-player';
-import { Button, Card, Container, Form, Icon, Image, Input, Menu, Popup, Table, Visibility } from 'semantic-ui-react';
+import { Button, Card, Container, Form, Icon, Image, Input, Menu, Popup, Table, Transition, Visibility } from 'semantic-ui-react';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import Sortable from 'sortablejs';
@@ -165,6 +165,7 @@ class SearchBar extends Component {
 }
 
 class VideoCard extends Component {
+  state = { show: false }
   onAddToPlaylist = (video) => {
     this.props.onAddToPlaylist(video);
   }
@@ -174,16 +175,26 @@ class VideoCard extends Component {
     this.props.onAddToPlaylist(video);
     this.props.onPlay(video, true);
   }
+  showButtons = () => {
+    this.setState({show: true});
+  }
+  hideButtons = () => {
+    this.setState({show: false});
+  }
   render() {
     const v = this.props.video;
     const thumb = v.thumbnails.medium;
     return (
       <Card>
-        <Image src={thumb.url} height={thumb.height} width={thumb.width} />
-        <div className='VideoCard-buttons'>
-          <Icon link name='play' size='large' title='Play now' onClick={() => this.onPlay(v)}/>
-          <Icon link name='plus' size='large' title='Add to queue'  onClick={() => this.onAddToPlaylist(v)} />
-          <Icon link name='info' size='large' title='Info'  onClick={() => this.onInfo(v)} />
+        <div onMouseOver={this.showButtons} onMouseOut={this.hideButtons}>
+          <Image src={thumb.url} height={thumb.height} width={thumb.width} />
+          <Transition animation='fade' duration={50} visible={this.state.show}>
+            <div className='VideoCard-buttons'>
+              <Icon link name='play' size='large' title='Play now' onClick={() => this.onPlay(v)}/>
+              <Icon link name='plus' size='large' title='Add to queue'  onClick={() => this.onAddToPlaylist(v)} />
+              <Icon link name='info' size='large' title='Info'  onClick={() => this.onInfo(v)} />
+            </div>
+          </Transition>
         </div>
         <Card.Content>
           <Card.Description className='truncate' title={v.title}><strong>{v.title}</strong></Card.Description>

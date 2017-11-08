@@ -181,9 +181,9 @@ class VideoCard extends Component {
       <Card>
         <Image src={thumb.url} height={thumb.height} width={thumb.width} />
         <div className='VideoCard-buttons'>
-          <Icon name='play' size='large' title='Play now' onClick={() => this.onPlay(v)}/>
-          <Icon name='plus' size='large' title='Add to queue'  onClick={() => this.onAddToPlaylist(v)} />
-          <Icon name='info' size='large' title='Info'  onClick={() => this.onInfo(v)} />
+          <Icon link name='play' size='large' title='Play now' onClick={() => this.onPlay(v)}/>
+          <Icon link name='plus' size='large' title='Add to queue'  onClick={() => this.onAddToPlaylist(v)} />
+          <Icon link name='info' size='large' title='Info'  onClick={() => this.onInfo(v)} />
         </div>
         <Card.Content>
           <Card.Description className='truncate' title={v.title}><strong>{v.title}</strong></Card.Description>

@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import querystring from 'querystring';
 import youtubeSearch from 'youtube-search';
 
 // youtube api
@@ -32,8 +33,20 @@ class Youtube {
     youtubeSearch(query.term, opts, (err, newVideos, pageInfo) => {
       query.videos = query.videos.concat(newVideos);
       query.pageInfo = pageInfo;
+      this._augmentVideos(query, newVideos);
       query.callback(query, query.videos);
     });
+  }
+  _augmentVideos = (query, videos) => {
+    const ids = videos.map(v => v.id);
+    console.log(ids);
+    const opts = {
+      key: YOUTUBE_API_KEY,
+      id: ids.join(','),
+      part: 'contentDetails,statistics'
+    }
+    console.log(querystring.stringify(opts));
+    fetch('https://www.googleapis.com/youtube/v3/videos?' + querystring.stringify(opts)).then(results => results.text()).then(text => console.log(text));
   }
 }
 

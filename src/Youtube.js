@@ -38,15 +38,24 @@ class Youtube {
     });
   }
   _augmentVideos = (query, videos) => {
-    const ids = videos.map(v => v.id);
-    console.log(ids);
     const opts = {
       key: YOUTUBE_API_KEY,
-      id: ids.join(','),
+      id: videos.map(v => v.id).join(','),
       part: 'contentDetails,statistics'
     }
-    console.log(querystring.stringify(opts));
-    fetch('https://www.googleapis.com/youtube/v3/videos?' + querystring.stringify(opts)).then(results => results.text()).then(text => console.log(text));
+    const url = 'https://www.googleapis.com/youtube/v3/videos?' + querystring.stringify(opts);
+    fetch(url).then(results => results.json()).then(json => {
+      const metadata = json.items;
+      let i = 0, j = 0;
+      while (i < videos.length && j < metadata.length) {
+        const video = videos[i++];
+        if (video.id === metadata[j].id) {
+          video.meta = metadata[j];
+          j++;
+        }
+      }
+      query.callback(query, videos);
+    });
   }
 }
 

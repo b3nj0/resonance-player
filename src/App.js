@@ -146,7 +146,7 @@ class VideoMeta extends Component {
       return null;
     }
     return (
-      <Card.Meta><Icon name='eye' />{Humanize.compactInteger(v.meta.statistics.viewCount)}<Icon name='clock' /><VideoDuration video={v} /></Card.Meta>
+      <Card.Meta><Icon name='eye' />{Humanize.compactInteger(v.meta.statistics.viewCount)}<Icon name='thumbs outline up' />{Humanize.compactInteger(v.meta.statistics.likeCount)}<Icon name='clock' /><VideoDuration video={v} /></Card.Meta>
     )
   }
 }

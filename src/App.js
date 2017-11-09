@@ -131,15 +131,21 @@ class SearchBar extends Component {
   }
 }
 
+class VideoDuration extends Component {
+  render() {
+    const duration = moment.duration(this.props.video.meta.contentDetails.duration);
+    return duration.format('h:mm:ss');
+  }
+}
+
 class VideoMeta extends Component {
   render() {
     const v = this.props.video;
     if (!v.meta) {
       return null;
     }
-    const duration = moment.duration(v.meta.contentDetails.duration);
     return (
-      <Card.Meta><Icon name='clock' />{ duration.format('h:mm:ss')}</Card.Meta>
+      <Card.Meta><Icon name='clock' /><VideoDuration video={v} /></Card.Meta>
     )
   }
 }
@@ -230,7 +236,7 @@ class PlaylistTable extends Component {
             <a onClick={e => this.props.onPlay(video)}><Image src={thumb.url} height={thumb.height / 4} width={thumb.width / 4} /></a>
           </Table.Cell>
           <Table.Cell>{video.title}</Table.Cell>
-          <Table.Cell collapsing></Table.Cell>
+          <Table.Cell collapsing><VideoDuration video={video} /></Table.Cell>
           <Table.Cell collapsing>
             <Icon name='trash outline' link size='large' onClick={e => this.onRemoveVideo(i)} />
           </Table.Cell>
@@ -383,6 +389,10 @@ class App extends Component {
           height: video.thumbnails.medium.height,
           width: video.thumbnails.medium.width
         } 
+      },
+      meta: {
+        statistics: { duration: video.meta.statistics },
+        contentDetails: { duration: video.meta.contentDetails.duration }
       }
     };
     this.playlist.add(data);

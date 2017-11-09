@@ -47,14 +47,14 @@ class Youtube {
     fetch(url).then(results => results.json()).then(json => {
       const metadata = json.items;
       let i = 0, j = 0;
-      while (i < videos.length && j < metadata.length) {
-        const video = videos[i++];
+      while (i < query.videos.length && j < metadata.length) {
+        const video = query.videos[i++];
         if (video.id === metadata[j].id) {
           video.meta = metadata[j];
           j++;
         }
       }
-      query.callback(query, videos);
+      query.callback(query, query.videos);
     });
   }
 }

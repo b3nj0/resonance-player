@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import Humanize from 'humanize-plus';
 import moment from 'moment';
 import 'moment-duration-format';
 import { Link } from 'react-router-dom';
@@ -145,7 +146,7 @@ class VideoMeta extends Component {
       return null;
     }
     return (
-      <Card.Meta><Icon name='clock' /><VideoDuration video={v} /></Card.Meta>
+      <Card.Meta><Icon name='eye' />{Humanize.compactInteger(v.meta.statistics.viewCount)}<Icon name='clock' /><VideoDuration video={v} /></Card.Meta>
     )
   }
 }

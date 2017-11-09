@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+
+import moment from 'moment';
+import 'moment-duration-format';
 import { Link } from 'react-router-dom';
 import ReactPlayer from 'react-player';
 import { Button, Card, Container, Form, Icon, Image, Input, Menu, Popup, Table, Transition, Visibility } from 'semantic-ui-react';
@@ -128,6 +131,19 @@ class SearchBar extends Component {
   }
 }
 
+class VideoMeta extends Component {
+  render() {
+    const v = this.props.video;
+    if (!v.meta) {
+      return null;
+    }
+    const duration = moment.duration(v.meta.contentDetails.duration);
+    return (
+      <Card.Meta><Icon name='clock' />{ duration.format('h:mm:ss')}</Card.Meta>
+    )
+  }
+}
+
 class VideoCard extends Component {
   state = { show: false }
   onAddToPlaylist = (video) => {
@@ -162,6 +178,7 @@ class VideoCard extends Component {
         </div>
         <Card.Content>
           <Card.Description className='truncate' title={v.title}><strong>{v.title}</strong></Card.Description>
+          <VideoMeta video={v} />
         </Card.Content>
       </Card>
     );

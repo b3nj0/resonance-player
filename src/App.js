@@ -275,6 +275,7 @@ class VideoPlayerBar extends Component {
   }
   onShuffle = () => { this.props.playlist.shuffle() }
   render() {
+    const v = this.props.playlist.next(0);
     return (
       <Menu borderless fixed='bottom'>
         <Slider 
@@ -297,6 +298,7 @@ class VideoPlayerBar extends Component {
             onProgress={this.onProgress}
             />
         </Menu.Item>
+        <Menu.Item position='left'>{v ? v.title : ''}</Menu.Item>
         <Menu.Item>
           <Button.Group>
             <Button title='Repeat' icon='repeat' />

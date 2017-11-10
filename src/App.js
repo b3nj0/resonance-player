@@ -266,7 +266,8 @@ class PlaylistTable extends Component {
 }
 const STEPS = 100000;
 class VideoPlayerBar extends Component {
-  state = { position: 0 }
+  state = { position: 0, expanded: false }
+  onExpand = () => { this.setState({expanded: !this.state.expanded}) }
   onOpenInYoutube = () => { window.open(this.props.url) }
   onProgress = (p) => { this.setState({position: p.played * STEPS}) }
   onSeek = (pos) => {
@@ -286,19 +287,22 @@ class VideoPlayerBar extends Component {
           onChange={this.onSeek}
           />
         <Menu.Item position='left'>
-          <ReactPlayer 
-            id='react-player'
-            controls
-            ref={(player) => this.player = player}
-            height={40}   
-            width={60} 
-            url={this.props.url} 
-            playing={this.props.playing}
-            progressFrequency={50} 
-            onEnded={e => this.props.onPlay(this.props.playlist.next(1), this.props.playing)}
-            onError={e => this.props.onPlay(this.props.playlist.next(1), this.props.playing)}
-            onProgress={this.onProgress}
-            />
+          <div onClick={this.onExpand}>
+            <ReactPlayer 
+              id='react-player'
+              className={this.state.expanded ? 'expanded' : ''} 
+              controls
+              ref={(player) => this.player = player}
+              height={40}   
+              width={60} 
+              url={this.props.url} 
+              playing={this.props.playing}
+              progressFrequency={50} 
+              onEnded={e => this.props.onPlay(this.props.playlist.next(1), this.props.playing)}
+              onError={e => this.props.onPlay(this.props.playlist.next(1), this.props.playing)}
+              onProgress={this.onProgress}
+              />
+          </div>
         </Menu.Item>
         <Menu.Item position='left'>{v ? v.title : ''}</Menu.Item>
         <Menu.Item>

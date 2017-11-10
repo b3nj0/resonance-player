@@ -53,6 +53,6 @@
   transition: transform 0.3s;
 }
 
-#react-player:hover {
-  transform: scale(4) translate(23px, -16px);
+.expanded {
+  transform: scale(5) translate(24px, -29px);
 }

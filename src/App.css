@@ -48,3 +48,11 @@
 .VideoCard-buttons .icon:active {
   color: cyan;
 }
+
+#react-player {
+  transition: transform 0.3s;
+}
+
+#react-player:hover {
+  transform: scale(4) translate(23px, -16px);
+}

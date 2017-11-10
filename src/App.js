@@ -287,6 +287,7 @@ class VideoPlayerBar extends Component {
           />
         <Menu.Item position='left'>
           <ReactPlayer 
+            id='react-player'
             ref={(player) => this.player = player}
             height={40}   
             width={60} 

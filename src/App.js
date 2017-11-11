@@ -267,7 +267,10 @@ class PlaylistTable extends Component {
 const STEPS = 100000;
 class VideoPlayerBar extends Component {
   state = { position: 0, expanded: false }
-  onExpand = () => { this.setState({expanded: !this.state.expanded}) }
+  onExpand = () => { 
+    this.setState({expanded: !this.state.expanded}) 
+    console.log('expand:' + this.state.expanded)
+  }
   onOpenInYoutube = () => { window.open(this.props.url) }
   onProgress = (p) => { this.setState({position: p.played * STEPS}) }
   onSeek = (pos) => {
@@ -277,6 +280,8 @@ class VideoPlayerBar extends Component {
   onShuffle = () => { this.props.playlist.shuffle() }
   render() {
     const v = this.props.playlist.next(0);
+    console.log(v);
+    const thumbnail = v ? v.thumbnails.medium.url : '';
     return (
       <Menu borderless fixed='bottom'>
         <Slider 
@@ -287,21 +292,24 @@ class VideoPlayerBar extends Component {
           onChange={this.onSeek}
           />
         <Menu.Item position='left'>
-          <div onClick={this.onExpand}>
-            <ReactPlayer 
-              id='react-player'
-              className={this.state.expanded ? 'expanded' : ''} 
-              controls
-              ref={(player) => this.player = player}
-              height={40}   
-              width={60} 
-              url={this.props.url} 
-              playing={this.props.playing}
-              progressFrequency={50} 
-              onEnded={e => this.props.onPlay(this.props.playlist.next(1), this.props.playing)}
-              onError={e => this.props.onPlay(this.props.playlist.next(1), this.props.playing)}
-              onProgress={this.onProgress}
-              />
+          <div>
+            <div id='react-player' className={this.state.expanded ? 'expanded' : ''}>
+              <ReactPlayer 
+                ref={(player) => this.player = player}
+                height={40}   
+                width={60} 
+                url={this.props.url} 
+                playing={this.props.playing}
+                progressFrequency={50} 
+                onEnded={e => this.props.onPlay(this.props.playlist.next(1), this.props.playing)}
+                onError={e => this.props.onPlay(this.props.playlist.next(1), this.props.playing)}
+                onProgress={this.onProgress}
+                />
+            </div>
+            <div style={{position:'absolute', left:16, top:13, width:60, height:40, zIndex:-1}}>
+              <img width={60} height={40} src={thumbnail} />
+            </div>
+            <div onClick={this.onExpand} style={{position:'absolute', left:0, top:3, width:'100%', height:'100%'}} />
           </div>
         </Menu.Item>
         <Menu.Item position='left'>{v ? v.title : ''}</Menu.Item>

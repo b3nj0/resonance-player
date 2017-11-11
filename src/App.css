@@ -49,10 +49,33 @@
   color: cyan;
 }
 
-#react-player {
+#player-bar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 80px;
+  background-color: blue;
+}
+
+#player-progress {
+  position: absolute;
+  left: 120px;
+  top: -5px;
+  width: calc(100% - 120px);
+}
+
+#player-screen {
   transition: transform 0.3s;
 }
 
+.player-screen {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 120px;
+  height: 80px;
+}
+
 .expanded {
-  transform: scale(5) translate(24px, -29px);
+  transform: scale(3) translate(32px, -5px);
 }

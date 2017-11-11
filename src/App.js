@@ -283,68 +283,66 @@ class VideoPlayerBar extends Component {
     const v = this.props.playlist.next(0);
     console.log(v);
     const thumbnail = v ? v.thumbnails.medium.url : '';
+
+    const expandedCss = this.state.expanded ? 'expanded' : '';
     return (
-      <Menu borderless fixed='bottom'>
-        <Slider 
-          style={{position:'absolute', left:0, top:-7, width:'100%'}} 
-          min={0} 
-          max={STEPS} 
-          value={this.state.position}
-          onChange={this.onSeek}
-          />
-        <Menu.Item position='left'>
-          <div>
-            <div id='react-player' className={this.state.expanded ? 'expanded' : ''}>
-              <ReactPlayer 
-                ref={(player) => this.player = player}
-                height={40}   
-                width={60} 
-                url={this.props.url} 
-                playing={this.props.playing}
-                progressFrequency={50} 
-                onEnded={this.playNext}
-                onError={this.playNext}
-                onProgress={this.onProgress}
-                />
-            </div>
-            <div style={{position:'absolute', left:16, top:13, width:60, height:40, zIndex:-1}}>
-              <img width={60} height={40} src={thumbnail} />
-            </div>
-            <div onClick={this.onExpand} style={{position:'absolute', left:0, top:3, width:'100%', height:'100%'}} />
-          </div>
-        </Menu.Item>
-        <Menu.Item position='left'>{v ? v.title : ''}</Menu.Item>
-        <Menu.Item>
-          <Button.Group>
-            <Button title='Repeat' icon='repeat' />
-            <Button title='Previous' icon='step backward' onClick={e => this.props.onPlay(this.props.playlist.next(-1), this.props.playing)}/>
-            <Button title='Play' icon={this.props.playing ? 'pause' : 'play'} onClick={e => this.props.onPlay(this.props.playlist.next(0), !this.props.playing)}/>
-            <Button title='Next' icon='step forward' onClick={e => this.props.onPlay(this.props.playlist.next(1), this.props.playing)}/>
-            <Button title='Shuffle' icon='random' onClick={this.onShuffle} />
-          </Button.Group>
-        </Menu.Item>
-        <Menu.Item position='right'>
-          <Button.Group>
-            <Button title='Adjust Volume' icon='volume up' />
-            <Button title='Open in YouTube' icon='youtube' onClick={this.onOpenInYoutube} />
-            <Popup
-              on='click'
-              position='top right'
-              size='tiny'
-              flowing
-              trigger={
-                <Button title='Show Playlist' onClick={this.onShowPlaylist}>
-                  <Icon.Group>
-                    <Icon name='unordered list' />
-                    <Icon corner name='music' />
-                  </Icon.Group>
-                </Button>
-              }
-              content={<PlaylistTable playlist={this.props.playlist} onPlay={v => this.props.onPlay(this.props.playlist.play(v), true)}/>}
+      <div id='player-bar'>
+        <div id='player-progress'>
+          <Slider
+            min={0} 
+            max={STEPS} 
+            value={this.state.position}
+            onChange={this.onSeek}
             />
-          </Button.Group>
-        </Menu.Item>
-      </Menu>
+        </div>
+        <div className='player-screen'>
+          <div id='player-screen' className={`${expandedCss}`} style={{zIndex:2}}>
+            <ReactPlayer 
+              ref={(player) => this.player = player}
+              height={80}   
+              width={120} 
+              url={this.props.url} 
+              playing={this.props.playing}
+              progressFrequency={50} 
+              onEnded={this.playNext}
+              onError={this.playNext}
+              onProgress={this.onProgress}
+              />
+          </div>
+          <div>
+            <img className='player-screen' src={thumbnail} style={{zIndex:-1}}/>
+          </div>
+          <div onClick={this.onExpand} className='player-screen' style={{top:3, zIndex:3}}/>
+        </div>
+        <span>{v ? v.title : ''}</span>
+        <Button.Group>
+          <Button title='Repeat' icon='repeat' />
+          <Button title='Previous' icon='step backward' onClick={e => this.props.onPlay(this.props.playlist.next(-1), this.props.playing)}/>
+          <Button title='Play' icon={this.props.playing ? 'pause' : 'play'} onClick={e => this.props.onPlay(this.props.playlist.next(0), !this.props.playing)}/>
+          <Button title='Next' icon='step forward' onClick={e => this.props.onPlay(this.props.playlist.next(1), this.props.playing)}/>
+          <Button title='Shuffle' icon='random' onClick={this.onShuffle} />
+        </Button.Group>
+        <Button.Group>
+          <Button title='Adjust Volume' icon='volume up' />
+          <Button title='Open in YouTube' icon='youtube' onClick={this.onOpenInYoutube} />
+          <Popup
+            on='click'
+            position='top right'
+            size='tiny'
+            flowing
+            trigger={
+              <Button title='Show Playlist' onClick={this.onShowPlaylist}>
+                <Icon.Group>
+                  <Icon name='unordered list' />
+                  <Icon corner name='music' />
+                </Icon.Group>
+              </Button>
+            }
+            content={<PlaylistTable playlist={this.props.playlist} onPlay={v => this.props.onPlay(this.props.playlist.play(v), true)}/>}
+          />
+        </Button.Group>
+
+      </div>
     );
   }
 }

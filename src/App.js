@@ -278,6 +278,7 @@ class VideoPlayerBar extends Component {
     this.player.seekTo(pos / STEPS);
   }
   onShuffle = () => { this.props.playlist.shuffle() }
+  playNext = () => { this.props.onPlay(this.props.playlist.next(1), this.props.playing) }
   render() {
     const v = this.props.playlist.next(0);
     console.log(v);
@@ -301,8 +302,8 @@ class VideoPlayerBar extends Component {
                 url={this.props.url} 
                 playing={this.props.playing}
                 progressFrequency={50} 
-                onEnded={e => this.props.onPlay(this.props.playlist.next(1), this.props.playing)}
-                onError={e => this.props.onPlay(this.props.playlist.next(1), this.props.playing)}
+                onEnded={this.playNext}
+                onError={this.playNext}
                 onProgress={this.onProgress}
                 />
             </div>

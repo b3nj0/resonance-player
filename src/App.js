@@ -293,7 +293,7 @@ class VolumeSlider extends Component {
 
 const STEPS = 100000;
 class VideoPlayerBar extends Component {
-  state = { position: 0, expanded: false }
+  state = { position: 0, expanded: false, volume: 0.5 }
   onExpand = () => { 
     this.setState({expanded: !this.state.expanded}) 
     console.log('expand:' + this.state.expanded)
@@ -331,6 +331,7 @@ class VideoPlayerBar extends Component {
                 width={120} 
                 url={this.props.url} 
                 playing={this.props.playing}
+                volume={this.state.volume}
                 progressFrequency={50} 
                 onEnded={this.playNext}
                 onError={this.playNext}
@@ -356,7 +357,7 @@ class VideoPlayerBar extends Component {
           </div>
         </div>
         <div id='player-right'>
-          <VolumeSlider volume={this.player ? this.player.volume : 0.5} />
+          <VolumeSlider volume={this.state.volume} onVolumeChange={vol => this.setState({volume: vol})} />
           <Icon size='large' title='Open in YouTube' name='youtube' onClick={this.onOpenInYoutube} />
           <Popup
             on='click'

@@ -126,3 +126,13 @@
 .expanded {
   transform: scale(3) translate(41px, -54px);
 }
+
+.volume-control {
+  display: flex;
+  width: auto;
+}
+
+.volume-slider {
+  width: 100px;
+  padding-top: 18px;
+}

@@ -264,6 +264,32 @@ class PlaylistTable extends Component {
     );
   }
 }
+
+class VolumeSlider extends Component {
+  scale = 1000
+  state = {
+    volume: this.props.volume * this.scale
+  }
+  onVolumeChange = (vol) => {
+    this.setState({volume: vol});
+  }
+  render() {
+    return (
+      <div className='volume-control'>
+        <Icon size='large' title='Adjust Volume' name='volume down' />
+        <Slider
+          className='volume-slider'
+          min={0} 
+          max={1000} 
+          value={this.state.volume}
+          onChange={this.onVolumeChange}
+          />
+        <Icon size='large' title='Adjust Volume' name='volume up' />
+      </div>
+    )
+  }
+}
+
 const STEPS = 100000;
 class VideoPlayerBar extends Component {
   state = { position: 0, expanded: false }
@@ -329,7 +355,7 @@ class VideoPlayerBar extends Component {
           </div>
         </div>
         <div id='player-right'>
-          <Icon size='large' title='Adjust Volume' name='volume up' />
+          <VolumeSlider volume={this.player ? this.player.volume : 0.5} />
           <Icon size='large' title='Open in YouTube' name='youtube' onClick={this.onOpenInYoutube} />
           <Popup
             on='click'

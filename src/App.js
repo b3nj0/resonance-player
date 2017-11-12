@@ -337,7 +337,7 @@ class VideoPlayerBar extends Component {
             size='tiny'
             flowing
             trigger={
-              <Icon.Group size='large' title='Show Playlist' onClick={this.onShowPlaylist}>
+              <Icon.Group size='large' title='Show Playlist'>
                 <Icon name='unordered list' />
                 <Icon corner name='music' />
               </Icon.Group>

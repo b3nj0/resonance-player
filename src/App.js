@@ -5,7 +5,7 @@ import moment from 'moment';
 import 'moment-duration-format';
 import { Link } from 'react-router-dom';
 import ReactPlayer from 'react-player';
-import { Button, Card, Container, Form, Icon, Image, Input, Menu, Popup, Table, Transition, Visibility } from 'semantic-ui-react';
+import { Card, Container, Form, Icon, Image, Input, Menu, Popup, Table, Transition, Visibility } from 'semantic-ui-react';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import Sortable from 'sortablejs';

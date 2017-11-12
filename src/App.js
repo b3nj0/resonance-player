@@ -266,12 +266,13 @@ class PlaylistTable extends Component {
 }
 
 class VolumeSlider extends Component {
-  scale = 1000
+  SCALE = 1000
   state = {
-    volume: this.props.volume * this.scale
+    volume: this.props.volume * this.SCALE
   }
   onVolumeChange = (vol) => {
     this.setState({volume: vol});
+    this.props.onVolumeChange(vol / this.SCALE);
   }
   render() {
     return (
@@ -280,7 +281,7 @@ class VolumeSlider extends Component {
         <Slider
           className='volume-slider'
           min={0} 
-          max={1000} 
+          max={this.SCALE} 
           value={this.state.volume}
           onChange={this.onVolumeChange}
           />

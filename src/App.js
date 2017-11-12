@@ -312,9 +312,11 @@ class VideoPlayerBar extends Component {
           <div>
             <img className='player-screen' src={thumbnail} style={{zIndex:-1}}/>
           </div>
-          <div onClick={this.onExpand} className='player-screen' style={{zIndex:9}}/>
+          <div className='player-screen' onClick={this.onExpand} style={{zIndex:9}}/>
         </div>
-        <span>{v ? v.title : ''}</span>
+        <div id='player-videoinfo' className='truncate'>
+          <span id='player-videotitle'>{v ? v.title : ''}</span>
+        </div>
         <Button.Group>
           <Button title='Repeat' icon='repeat' />
           <Button title='Previous' icon='step backward' onClick={e => this.props.onPlay(this.props.playlist.next(-1), this.props.playing)}/>

@@ -68,6 +68,13 @@
   transition: transform 0.3s;
 }
 
+#player-videoinfo {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  margin-left: 125px;
+}
+
 .player-screen {
   position: absolute;
   left: 0;

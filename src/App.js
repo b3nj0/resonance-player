@@ -365,10 +365,12 @@ class VideoPlayerBar extends Component {
             size='tiny'
             flowing
             trigger={
-              <Icon.Group size='large' title='Show Playlist'>
-                <Icon name='unordered list' />
-                <Icon corner name='music' />
-              </Icon.Group>
+              <div>
+                <Icon.Group size='large' title='Show Playlist'>
+                  <Icon name='unordered list' />
+                  <Icon corner name='music' />
+                </Icon.Group>
+              </div>
             }
             content={<PlaylistTable playlist={this.props.playlist} onPlay={v => this.props.onPlay(this.props.playlist.play(v), true)}/>}
           />

@@ -268,23 +268,34 @@ class PlaylistTable extends Component {
 class VolumeSlider extends Component {
   SCALE = 1000
   state = {
+    showControls: false,
     volume: this.props.volume * this.SCALE
   }
   onVolumeChange = (vol) => {
     this.setState({volume: vol});
     this.props.onVolumeChange(vol / this.SCALE);
   }
+  hideControls = (e) => {
+    this.setState({showControls: false});
+  }
+  showControls = (e) => {
+    this.setState({showControls: true});
+  }
   render() {
     return (
-      <div className='volume-control'>
-        <Icon size='large' title='Adjust Volume' name='volume down' />
-        <Slider
-          className='volume-slider'
-          min={0} 
-          max={this.SCALE} 
-          value={this.state.volume}
-          onChange={this.onVolumeChange}
-          />
+      <div className='volume-control' onMouseOver={this.showControls} onMouseOut={this.hideControls}>
+        <Transition animation='fade' duration={300} visible={this.state.showControls}>
+          <div style={{display: 'flex'}}>
+            <Icon size='large' title='Adjust Volume' name='volume down' />
+            <Slider
+              className='volume-slider'
+              min={0} 
+              max={this.SCALE} 
+              value={this.state.volume}
+              onChange={this.onVolumeChange}
+              />
+          </div>
+        </Transition>
         <Icon size='large' title='Adjust Volume' name='volume up' />
       </div>
     )

@@ -295,54 +295,62 @@ class VideoPlayerBar extends Component {
             onChange={this.onSeek}
             />
         </div>
-        <div className='player-screen'>
-          <div id='player-screen' className={`${expandedCss}`} style={{zIndex:2}}>
-            <ReactPlayer 
-              ref={(player) => this.player = player}
-              height={80}   
-              width={120} 
-              url={this.props.url} 
-              playing={this.props.playing}
-              progressFrequency={50} 
-              onEnded={this.playNext}
-              onError={this.playNext}
-              onProgress={this.onProgress}
-              />
+        <div id='player-left'>
+          <div className='player-screen'>
+            <div id='player-screen' className={`${expandedCss}`} style={{zIndex:2}}>
+              <ReactPlayer 
+                ref={(player) => this.player = player}
+                height={80}   
+                width={120} 
+                url={this.props.url} 
+                playing={this.props.playing}
+                progressFrequency={50} 
+                onEnded={this.playNext}
+                onError={this.playNext}
+                onProgress={this.onProgress}
+                />
+            </div>
+            <div>
+              <img className='player-screen' src={thumbnail} style={{zIndex:-1}}/>
+            </div>
+            <div className='player-screen' onClick={this.onExpand} style={{zIndex:9}}/>
           </div>
-          <div>
-            <img className='player-screen' src={thumbnail} style={{zIndex:-1}}/>
+          <div id='player-videoinfo' className='truncate'>
+            <span id='player-videotitle'>{v ? v.title : ''}</span>
           </div>
-          <div className='player-screen' onClick={this.onExpand} style={{zIndex:9}}/>
         </div>
-        <div id='player-videoinfo' className='truncate'>
-          <span id='player-videotitle'>{v ? v.title : ''}</span>
+        <div id='player-middle'>
+          <div id='player-controls'>
+            <Button.Group>
+              <Button title='Repeat' icon='repeat' />
+              <Button title='Previous' icon='step backward' onClick={e => this.props.onPlay(this.props.playlist.next(-1), this.props.playing)}/>
+              <Button title='Play' icon={this.props.playing ? 'pause' : 'play'} onClick={e => this.props.onPlay(this.props.playlist.next(0), !this.props.playing)}/>
+              <Button title='Next' icon='step forward' onClick={e => this.props.onPlay(this.props.playlist.next(1), this.props.playing)}/>
+              <Button title='Shuffle' icon='random' onClick={this.onShuffle} />
+            </Button.Group>
+          </div>
         </div>
-        <Button.Group>
-          <Button title='Repeat' icon='repeat' />
-          <Button title='Previous' icon='step backward' onClick={e => this.props.onPlay(this.props.playlist.next(-1), this.props.playing)}/>
-          <Button title='Play' icon={this.props.playing ? 'pause' : 'play'} onClick={e => this.props.onPlay(this.props.playlist.next(0), !this.props.playing)}/>
-          <Button title='Next' icon='step forward' onClick={e => this.props.onPlay(this.props.playlist.next(1), this.props.playing)}/>
-          <Button title='Shuffle' icon='random' onClick={this.onShuffle} />
-        </Button.Group>
-        <Button.Group>
-          <Button title='Adjust Volume' icon='volume up' />
-          <Button title='Open in YouTube' icon='youtube' onClick={this.onOpenInYoutube} />
-          <Popup
-            on='click'
-            position='top right'
-            size='tiny'
-            flowing
-            trigger={
-              <Button title='Show Playlist' onClick={this.onShowPlaylist}>
-                <Icon.Group>
-                  <Icon name='unordered list' />
-                  <Icon corner name='music' />
-                </Icon.Group>
-              </Button>
-            }
-            content={<PlaylistTable playlist={this.props.playlist} onPlay={v => this.props.onPlay(this.props.playlist.play(v), true)}/>}
-          />
-        </Button.Group>
+        <div id='player-right'>
+          <Button.Group>
+            <Button title='Adjust Volume' icon='volume up' />
+            <Button title='Open in YouTube' icon='youtube' onClick={this.onOpenInYoutube} />
+            <Popup
+              on='click'
+              position='top right'
+              size='tiny'
+              flowing
+              trigger={
+                <Button title='Show Playlist' onClick={this.onShowPlaylist}>
+                  <Icon.Group>
+                    <Icon name='unordered list' />
+                    <Icon corner name='music' />
+                  </Icon.Group>
+                </Button>
+              }
+              content={<PlaylistTable playlist={this.props.playlist} onPlay={v => this.props.onPlay(this.props.playlist.play(v), true)}/>}
+            />
+          </Button.Group>
+        </div>
 
       </div>
     );

@@ -75,6 +75,13 @@
   margin-left: 125px;
 }
 
+#player-controls {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  margin: 4px 24px 0 24px;
+}
+
 .player-screen {
   position: absolute;
   left: 0;

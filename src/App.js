@@ -329,25 +329,21 @@ class VideoPlayerBar extends Component {
           </div>
         </div>
         <div id='player-right'>
-          <Button.Group>
-            <Button title='Adjust Volume' icon='volume up' />
-            <Button title='Open in YouTube' icon='youtube' onClick={this.onOpenInYoutube} />
-            <Popup
-              on='click'
-              position='top right'
-              size='tiny'
-              flowing
-              trigger={
-                <Button title='Show Playlist' onClick={this.onShowPlaylist}>
-                  <Icon.Group>
-                    <Icon name='unordered list' />
-                    <Icon corner name='music' />
-                  </Icon.Group>
-                </Button>
-              }
-              content={<PlaylistTable playlist={this.props.playlist} onPlay={v => this.props.onPlay(this.props.playlist.play(v), true)}/>}
-            />
-          </Button.Group>
+          <Icon size='large' title='Adjust Volume' name='volume up' />
+          <Icon size='large' title='Open in YouTube' name='youtube' onClick={this.onOpenInYoutube} />
+          <Popup
+            on='click'
+            position='top right'
+            size='tiny'
+            flowing
+            trigger={
+              <Icon.Group size='large' title='Show Playlist' onClick={this.onShowPlaylist}>
+                <Icon name='unordered list' />
+                <Icon corner name='music' />
+              </Icon.Group>
+            }
+            content={<PlaylistTable playlist={this.props.playlist} onPlay={v => this.props.onPlay(this.props.playlist.play(v), true)}/>}
+          />
         </div>
 
       </div>

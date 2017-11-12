@@ -110,6 +110,11 @@
   margin: 10px;
 }
 
+#player-right .icon {
+  margin: 10px;
+}
+
+
 .player-screen {
   position: absolute;
   left: 0;

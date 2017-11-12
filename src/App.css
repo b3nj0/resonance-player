@@ -49,12 +49,36 @@
   color: cyan;
 }
 
+#player-left {
+  flex: 1;
+  height: 86px;
+  margin-top: 4px;
+  min-width: 0px;
+}
+#player-middle {
+  display: flex;
+  align-items: center;
+  height: 86px;
+  margin: 4px 48px 0 48px;
+}
+#player-right {
+  flex: 1;
+  height: 86px;
+  margin-top: 4px;
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+  min-width: 0px;
+}
+
 #player-bar {
   position: fixed;
   bottom: 0;
   width: 100%;
   height: 80px;
   background-color: blue;
+  display: flex;
 }
 
 #player-progress {

@@ -315,8 +315,8 @@ class VideoPlayerBar extends Component {
             </div>
             <div className='player-screen' onClick={this.onExpand} style={{zIndex:9}}/>
           </div>
-          <div id='player-videoinfo' className='truncate'>
-            <span id='player-videotitle'>{v ? v.title : ''}</span>
+          <div id='player-videoinfo'>
+            <span id='player-videotitle' className='truncate'>{v ? v.title : ''}</span>
           </div>
         </div>
         <div id='player-middle'>

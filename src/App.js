@@ -287,7 +287,7 @@ class VideoPlayerBar extends Component {
     const expandedCss = this.state.expanded ? 'expanded' : '';
     return (
       <div id='player-bar'>
-        <div id='player-progress'>
+        <div id='player-progress' style={{zIndex:10}}>
           <Slider
             min={0} 
             max={STEPS} 
@@ -312,7 +312,7 @@ class VideoPlayerBar extends Component {
           <div>
             <img className='player-screen' src={thumbnail} style={{zIndex:-1}}/>
           </div>
-          <div onClick={this.onExpand} className='player-screen' style={{top:3, zIndex:3}}/>
+          <div onClick={this.onExpand} className='player-screen' style={{top:3, zIndex:9}}/>
         </div>
         <span>{v ? v.title : ''}</span>
         <Button.Group>

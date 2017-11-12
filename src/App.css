@@ -106,6 +106,10 @@
   margin: 4px 24px 0 24px;
 }
 
+#player-controls .icon {
+  margin: 10px;
+}
+
 .player-screen {
   position: absolute;
   left: 0;

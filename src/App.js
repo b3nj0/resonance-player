@@ -321,13 +321,11 @@ class VideoPlayerBar extends Component {
         </div>
         <div id='player-middle'>
           <div id='player-controls'>
-            <Button.Group>
-              <Button title='Repeat' icon='repeat' />
-              <Button title='Previous' icon='step backward' onClick={e => this.props.onPlay(this.props.playlist.next(-1), this.props.playing)}/>
-              <Button title='Play' icon={this.props.playing ? 'pause' : 'play'} onClick={e => this.props.onPlay(this.props.playlist.next(0), !this.props.playing)}/>
-              <Button title='Next' icon='step forward' onClick={e => this.props.onPlay(this.props.playlist.next(1), this.props.playing)}/>
-              <Button title='Shuffle' icon='random' onClick={this.onShuffle} />
-            </Button.Group>
+            <Icon size='large' title='Repeat' name='repeat' />
+            <Icon size='large' title='Previous' name='step backward' onClick={e => this.props.onPlay(this.props.playlist.next(-1), this.props.playing)}/>
+            <Icon circular inverted color='blue' size='big' title='Play' name={this.props.playing ? 'pause' : 'play'} onClick={e => this.props.onPlay(this.props.playlist.next(0), !this.props.playing)}/>
+            <Icon size='large' title='Next' name='step forward' onClick={e => this.props.onPlay(this.props.playlist.next(1), this.props.playing)}/>
+            <Icon size='large' title='Shuffle' name='random' onClick={this.onShuffle} />
           </div>
         </div>
         <div id='player-right'>

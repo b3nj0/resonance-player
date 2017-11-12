@@ -112,7 +112,7 @@ class UserAvatar extends Component {
   render() {
     if (this.props.user) {
       return (
-        <span><Image src={this.props.user.photoURL} height={40} width={40} alt='avatar' /></span>
+        <span><Image src={this.props.user.photoURL} className='circular' height={40} width={40} alt='avatar' /></span>
       )
     } else {
       return <Link to='/login'>Sign in</Link>

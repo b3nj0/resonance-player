@@ -312,7 +312,7 @@ class VideoPlayerBar extends Component {
           <div>
             <img className='player-screen' src={thumbnail} style={{zIndex:-1}}/>
           </div>
-          <div onClick={this.onExpand} className='player-screen' style={{top:3, zIndex:9}}/>
+          <div onClick={this.onExpand} className='player-screen' style={{zIndex:9}}/>
         </div>
         <span>{v ? v.title : ''}</span>
         <Button.Group>

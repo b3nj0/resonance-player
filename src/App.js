@@ -284,18 +284,14 @@ class VolumeSlider extends Component {
   render() {
     return (
       <div className='volume-control' onMouseOver={this.showControls} onMouseOut={this.hideControls}>
-        <Transition animation='fade' duration={300} visible={this.state.showControls}>
-          <div style={{display: 'flex'}}>
-            <Icon size='large' title='Adjust Volume' name='volume down' />
-            <Slider
-              className='volume-slider'
-              min={0} 
-              max={this.SCALE} 
-              value={this.state.volume}
-              onChange={this.onVolumeChange}
-              />
-          </div>
-        </Transition>
+        <Icon size='large' title='Adjust Volume' name='volume down' />
+        <Slider
+          className='volume-slider'
+          min={0} 
+          max={this.SCALE} 
+          value={this.state.volume}
+          onChange={this.onVolumeChange}
+          />
         <Icon size='large' title='Adjust Volume' name='volume up' />
       </div>
     )

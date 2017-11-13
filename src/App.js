@@ -300,7 +300,7 @@ class VolumeSlider extends Component {
 
 const STEPS = 100000;
 class VideoPlayerBar extends Component {
-  state = { position: 0, expanded: false, volume: 0.5 }
+  state = { position: 0, expanded: false, showPlaylist: false, volume: 0.5 }
   onExpand = () => { 
     this.setState({expanded: !this.state.expanded}) 
     console.log('expand:' + this.state.expanded)
@@ -370,8 +370,9 @@ class VideoPlayerBar extends Component {
             position='top right'
             size='tiny'
             flowing
+            open={this.state.showPlaylist}
             trigger={
-              <div>
+              <div onClick={() => this.setState({showPlaylist: !this.state.showPlaylist})}>
                 <Icon.Group size='large' title='Show Playlist'>
                   <Icon name='unordered list' />
                   <Icon corner name='music' />

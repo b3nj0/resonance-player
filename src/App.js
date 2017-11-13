@@ -315,7 +315,6 @@ class VideoPlayerBar extends Component {
   playNext = () => { this.props.onPlay(this.props.playlist.next(1), this.props.playing) }
   render() {
     const v = this.props.playlist.next(0);
-    console.log(v);
     const thumbnail = v ? v.thumbnails.medium.url : '';
 
     const expandedCss = this.state.expanded ? 'expanded' : '';

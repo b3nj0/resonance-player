@@ -222,6 +222,9 @@ class PlaylistTable extends Component {
   onRemoveVideo = (index) => {
     this.props.playlist.remove(index);
   }
+  onRemoveAllVideos = () => {
+    this.props.playlist.clear();
+  }
   onMoveVideo = (e) => {
     this.props.playlist.move(e.oldIndex, e.newIndex);
     this.forceUpdate();
@@ -239,7 +242,7 @@ class PlaylistTable extends Component {
           <Table.Cell>{video.title}</Table.Cell>
           <Table.Cell collapsing><VideoDuration video={video} /></Table.Cell>
           <Table.Cell collapsing>
-            <Icon name='trash outline' link size='large' onClick={e => this.onRemoveVideo(i)} />
+            <Icon name='delete' link size='large' onClick={e => this.onRemoveVideo(i)} />
           </Table.Cell>
         </Table.Row>
       );
@@ -253,7 +256,7 @@ class PlaylistTable extends Component {
               <Table.HeaderCell/>
               <Table.HeaderCell>Video</Table.HeaderCell>
               <Table.HeaderCell><Icon name='clock' /></Table.HeaderCell>
-              <Table.HeaderCell/>
+              <Table.HeaderCell><Icon name='trash outline' link size='large' onClick={e => this.onRemoveAllVideos()} /></Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body id='playlist-tbody'>

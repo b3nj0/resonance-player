@@ -469,6 +469,7 @@ class App extends Component {
     return data;
   }
   render() {
+    document.title = this.playlist.next(0) ? this.playlist.next(0).title : 'Resonance';
     return (
       <div className="App" style={{paddingTop:'80px', paddingBottom:'80px'}}>
         <div id='top-panel'>

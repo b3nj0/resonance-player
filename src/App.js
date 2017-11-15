@@ -275,6 +275,14 @@ class VolumeSlider extends Component {
     this.setState({volume: vol});
     this.props.onVolumeChange(vol / this.SCALE);
   }
+  onMute = () => {
+    if (this.state.volume > 0) {
+      this.setState({premute: this.state.volume});
+      this.onVolumeChange(0);
+    } else {
+      this.onVolumeChange(this.state.premute);
+    }
+  }
   hideControls = (e) => {
     this.setState({showControls: false});
   }
@@ -282,19 +290,23 @@ class VolumeSlider extends Component {
     this.setState({showControls: true});
   }
   render() {
-    return (
-      <div className='volume-control' onMouseOver={this.showControls} onMouseOut={this.hideControls}>
-        <Icon size='large' title='Adjust Volume' name='volume down' />
-        <Slider
-          className='volume-slider'
-          min={0} 
-          max={this.SCALE} 
-          value={this.state.volume}
-          onChange={this.onVolumeChange}
-          />
-        <Icon size='large' title='Adjust Volume' name='volume up' />
-      </div>
-    )
+      if (this.state.volume > 0) {
+        return (
+          <div className='volume-control' onMouseOver={this.showControls} onMouseOut={this.hideControls}>
+            <Icon size='large' title='Adjust Volume' name='volume down' />
+            <Slider
+              className='volume-slider'
+              min={0} 
+              max={this.SCALE} 
+              value={this.state.volume}
+              onChange={this.onVolumeChange}
+              />
+            <Icon size='large' title='Adjust Volume' name={this.state.volume > 0 ? 'volume up' : 'volume off'}  onClick={this.onMute} />
+          </div>
+        )
+      } else {
+        return <Icon size='large' title='Adjust Volume' name={this.state.volume > 0 ? 'volume up' : 'volume off'}  onClick={this.onMute} />
+      }
   }
 }
 

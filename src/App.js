@@ -154,12 +154,12 @@ class VideoMeta extends Component {
 class VideoCard extends Component {
   state = { show: false }
   onAddToPlaylist = (video) => {
-    this.props.onAddToPlaylist(video);
+    return this.props.onAddToPlaylist(video);
   }
   onInfo = (video) => {
   }
   onPlay = (video) => {
-    this.props.onAddToPlaylist(video);
+    video = this.props.onAddToPlaylist(video);
     this.props.onPlay(video, true);
   }
   showButtons = () => {
@@ -178,7 +178,7 @@ class VideoCard extends Component {
           <Transition animation='fade' duration={50} visible={this.state.show}>
             <div className='VideoCard-buttons'>
               <Icon link name='play' size='large' title='Play now' onClick={() => this.onPlay(v)}/>
-              <Icon link name='plus' size='large' title='Add to queue'  onClick={() => this.onAddToPlaylist(v)} />
+              <Icon link name='plus' size='large' title='Add to queue' onClick={() => this.onAddToPlaylist(v)} />
               <Icon link name='info' size='large' title='Info'  onClick={() => this.onInfo(v)} />
             </div>
           </Transition>
@@ -444,6 +444,7 @@ class App extends Component {
       playing: playing,
       url: video.link
     });
+    this.playlist.play(video);
   }
   onAddToPlaylist = (video) => {
     const data = {
@@ -465,6 +466,7 @@ class App extends Component {
       }
     };
     this.playlist.add(data);
+    return data;
   }
   render() {
     return (

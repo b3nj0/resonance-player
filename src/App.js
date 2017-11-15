@@ -301,11 +301,11 @@ class VolumeSlider extends Component {
               value={this.state.volume}
               onChange={this.onVolumeChange}
               />
-            <Icon size='large' title='Adjust Volume' name={this.state.volume > 0 ? 'volume up' : 'volume off'}  onClick={this.onMute} />
+            <Icon size='large' title='Adjust Volume' name='volume up' onClick={this.onMute} />
           </div>
         )
       } else {
-        return <Icon size='large' title='Adjust Volume' name={this.state.volume > 0 ? 'volume up' : 'volume off'}  onClick={this.onMute} />
+        return <Icon size='large' title='Adjust Volume' name='volume off' onClick={this.onMute} />
       }
   }
 }

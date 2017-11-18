@@ -51,6 +51,7 @@
   left:0; 
   height:100%;
   width:100%;
+  overflow-x: scroll;
   color: white; 
   letter-spacing: -1px;  
   background: rgb(0, 0, 0); /* fallback color */

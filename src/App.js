@@ -152,11 +152,9 @@ class VideoMeta extends Component {
 }
 
 class VideoCard extends Component {
-  state = { show: false }
+  state = { show: false, info: false }
   onAddToPlaylist = (video) => {
     return this.props.onAddToPlaylist(video);
-  }
-  onInfo = (video) => {
   }
   onPlay = (video) => {
     video = this.props.onAddToPlaylist(video);
@@ -167,6 +165,12 @@ class VideoCard extends Component {
   }
   hideButtons = () => {
     this.setState({show: false});
+  }
+  showInfo = () => {
+    this.setState({info: true});
+  }
+  hideInfo = () => {
+    this.setState({info: false});
   }
   render() {
     const v = this.props.video;
@@ -179,7 +183,7 @@ class VideoCard extends Component {
             <div className='VideoCard-buttons'>
               <Icon link name='play' size='large' title='Play now' onClick={() => this.onPlay(v)}/>
               <Icon link name='plus' size='large' title='Add to queue' onClick={() => this.onAddToPlaylist(v)} />
-              <Icon link name='info' size='large' title='Info'  onClick={() => this.onInfo(v)} />
+              <Icon link name='info' size='large' title='Info' onClick={this.showInfo} />
             </div>
           </Transition>
         </div>
@@ -187,6 +191,11 @@ class VideoCard extends Component {
           <Card.Description className='truncate' title={v.title}><strong>{v.title}</strong></Card.Description>
           <VideoMeta video={v} />
         </Card.Content>
+        <Transition animation='fade' duration={120} visible={this.state.info}>
+          <div className='VideoCard-description' onMouseOut={this.hideInfo}>
+            <div>{v.description}</div>
+          </div>
+        </Transition>
       </Card>
     );
   }

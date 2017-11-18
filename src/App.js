@@ -359,7 +359,7 @@ class VideoPlayerBar extends Component {
     const thumbnail = v ? v.thumbnails.medium.url : '';
     const expandedCss = this.state.expanded ? 'expanded' : '';
     return (
-      <div id='player-bar'>
+      <div id='player-bar' onMouseEnter={() => this.setState({showDetail: true})} onMouseLeave={() => this.setState({showDetail: false})}>
         <div id='player-progress' style={{zIndex:10}}>
           <Slider
             min={0} 
@@ -421,7 +421,9 @@ class VideoPlayerBar extends Component {
             }
             content={<PlaylistTable playlist={this.props.playlist} onPlay={v => this.props.onPlay(this.props.playlist.play(v), true)}/>}
           />
-          <div id='player-position'><VideoPosition position={this.state.position} video={v} /></div>
+          <Transition animation='fade' duration={120} visible={this.state.showDetail}>
+            <div id='player-position'><VideoPosition position={this.state.position} video={v} /></div>
+          </Transition> 
         </div>
 
       </div>

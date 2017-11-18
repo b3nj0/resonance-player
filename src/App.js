@@ -142,7 +142,7 @@ class VideoDuration extends Component {
 class VideoPosition extends Component {
   formatDuration(duration) {
     const FORMAT = duration.asMinutes() > 60 ? 'h:mm:ss' : 'm:ss'; 
-    return duration.format(FORMAT)
+    return duration.format(FORMAT, {trim: false});
   }
   render() {
     const v = this.props.video;

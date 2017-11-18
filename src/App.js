@@ -210,7 +210,7 @@ class VideoCard extends Component {
           <VideoMeta video={v} />
         </Card.Content>
         <Transition animation='fade' duration={120} visible={this.state.info}>
-          <div className='VideoCard-description' onMouseLeave={this.hideInfo}>
+          <div className='VideoCard-description' onClick={this.hideInfo} onMouseLeave={this.hideInfo}>
             <div>{v.meta ? v.meta.snippet.description : v.description}</div>
           </div>
         </Transition>

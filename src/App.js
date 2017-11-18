@@ -176,8 +176,8 @@ class VideoCard extends Component {
     const v = this.props.video;
     const thumb = v.thumbnails.medium;
     return (
-      <Card>
-        <div onMouseOver={this.showButtons} onMouseOut={this.hideButtons}>
+      <Card onMouseOver={this.showButtons} onMouseLeave={this.hideButtons}>
+        <div>
           <Image src={thumb.url} height={thumb.height} width={thumb.width} />
           <Transition animation='fade' duration={50} visible={this.state.show}>
             <div className='VideoCard-buttons'>
@@ -192,7 +192,7 @@ class VideoCard extends Component {
           <VideoMeta video={v} />
         </Card.Content>
         <Transition animation='fade' duration={120} visible={this.state.info}>
-          <div className='VideoCard-description' onMouseOut={this.hideInfo}>
+          <div className='VideoCard-description' onMouseLeave={this.hideInfo}>
             <div>{v.meta ? v.meta.snippet.description : v.description}</div>
           </div>
         </Transition>
@@ -304,7 +304,7 @@ class VolumeSlider extends Component {
   render() {
       if (this.state.volume > 0) {
         return (
-          <div className='volume-control' onMouseOver={this.showControls} onMouseOut={this.hideControls}>
+          <div className='volume-control' onMouseOver={this.showControls} onMouseLeave={this.hideControls}>
             <Icon size='large' title='Adjust Volume' name='volume down' />
             <Slider
               className='volume-slider'

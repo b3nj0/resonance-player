@@ -139,6 +139,24 @@ class VideoDuration extends Component {
   }
 }
 
+class VideoPosition extends Component {
+  formatDuration(duration) {
+    const FORMAT = duration.asMinutes() > 60 ? 'h:mm:ss' : 'm:ss'; 
+    return duration.format(FORMAT)
+  }
+  render() {
+    const v = this.props.video;
+    if (!v || !v.meta) {
+      return null;
+    }
+    const duration = moment.duration(v.meta.contentDetails.duration);
+    const position = moment.duration(duration.asSeconds() * this.props.position, 'seconds');
+    return (
+      <div>{this.formatDuration(position)} / {this.formatDuration(duration)}</div>
+    );
+  }
+}
+
 class VideoMeta extends Component {
   render() {
     const v = this.props.video;
@@ -327,17 +345,18 @@ class VideoPlayerBar extends Component {
   state = { position: 0, expanded: false, showPlaylist: false, volume: 0.5 }
   onExpand = () => { this.setState({expanded: !this.state.expanded}) }
   onOpenInYoutube = () => { window.open(this.props.url) }
-  onProgress = (p) => { this.setState({position: p.played * STEPS}) }
+  onProgress = (p) => { 
+    this.setState({ position: p.played });
+  }
   onSeek = (pos) => {
     this.setState({position: pos}); 
-    this.player.seekTo(pos / STEPS);
+    this.player.seekTo(pos);
   }
   onShuffle = () => { this.props.playlist.shuffle() }
   playNext = () => { this.props.onPlay(this.props.playlist.next(1), this.props.playing) }
   render() {
     const v = this.props.playlist.next(0);
     const thumbnail = v ? v.thumbnails.medium.url : '';
-
     const expandedCss = this.state.expanded ? 'expanded' : '';
     return (
       <div id='player-bar'>
@@ -345,8 +364,8 @@ class VideoPlayerBar extends Component {
           <Slider
             min={0} 
             max={STEPS} 
-            value={this.state.position}
-            onChange={this.onSeek}
+            value={this.state.position * STEPS}
+            onChange={v => this.onSeek(v / STEPS)}
             />
         </div>
         <div id='player-left'>
@@ -375,6 +394,7 @@ class VideoPlayerBar extends Component {
           </div>
         </div>
         <div id='player-middle'>
+          <VideoPosition position={this.state.position} video={v} />
           <div id='player-controls'>
             <Icon size='large' title='Repeat' name='repeat' />
             <Icon size='large' title='Previous' name='step backward' onClick={e => this.props.onPlay(this.props.playlist.next(-1), this.props.playing)}/>

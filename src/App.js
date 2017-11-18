@@ -193,7 +193,7 @@ class VideoCard extends Component {
         </Card.Content>
         <Transition animation='fade' duration={120} visible={this.state.info}>
           <div className='VideoCard-description' onMouseOut={this.hideInfo}>
-            <div>{v.description}</div>
+            <div>{v.meta ? v.meta.snippet.description : v.description}</div>
           </div>
         </Transition>
       </Card>

@@ -41,7 +41,7 @@ class Youtube {
     const opts = {
       key: YOUTUBE_API_KEY,
       id: videos.map(v => v.id).join(','),
-      part: 'contentDetails,statistics'
+      part: 'contentDetails,snippet,statistics'
     }
     const url = 'https://www.googleapis.com/youtube/v3/videos?' + querystring.stringify(opts);
     fetch(url).then(results => results.json()).then(json => {

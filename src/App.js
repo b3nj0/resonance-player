@@ -394,7 +394,6 @@ class VideoPlayerBar extends Component {
           </div>
         </div>
         <div id='player-middle'>
-          <VideoPosition position={this.state.position} video={v} />
           <div id='player-controls'>
             <Icon size='large' title='Repeat' name='repeat' />
             <Icon size='large' title='Previous' name='step backward' onClick={e => this.props.onPlay(this.props.playlist.next(-1), this.props.playing)}/>
@@ -422,6 +421,7 @@ class VideoPlayerBar extends Component {
             }
             content={<PlaylistTable playlist={this.props.playlist} onPlay={v => this.props.onPlay(this.props.playlist.play(v), true)}/>}
           />
+          <div id='player-position'><VideoPosition position={this.state.position} video={v} /></div>
         </div>
 
       </div>

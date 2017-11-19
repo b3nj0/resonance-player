@@ -342,7 +342,7 @@ class VolumeSlider extends Component {
 
 const STEPS = 100000;
 class VideoPlayerBar extends Component {
-  state = { position: 0, expanded: false, showPlaylist: false, volume: 0.5 }
+  state = { position: 0, expanded: false, showPlaylist: false, showDetail: false, volume: 0.5 }
   onExpand = () => { this.setState({expanded: !this.state.expanded}) }
   onOpenInYoutube = () => { window.open(this.props.url) }
   onProgress = (p) => { 
